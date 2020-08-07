@@ -1,10 +1,12 @@
 {
-  "name": "martyewings-rsan",
-  "version": "0.1.0",
-  "author": "Marty Ewings",
-  "summary": "",
+  "name": "puppetlabs-support_tasks",
+  "version": "1.1.1",
+  "author": "Puppet Support Team",
+  "summary": "A module used to deliver Tasks for the solutions & configurations described in the PE Support Knowledgebase https://support.puppet.com/hc/en-us",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/puppetlabs/support-tasks",
+  "project_page": "https://github.com/puppetlabs/support-tasks",
+  "issues_url": "https://github.com/puppetlabs/support-tasks/issues",
   "dependencies": [
 
   ],
@@ -12,51 +14,83 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7"
+        "7",
+        "6"
       ]
     },
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
-        "7"
+        "7",
+        "6"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "8"
+        "7",
+        "6"
       ]
     },
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
-        "7"
+        "7",
+        "6"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "9"
+        "8"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "18.04"
+        "14.04",
+        "16.04"
       ]
     },
     {
       "operatingsystem": "windows",
       "operatingsystemrelease": [
-        "2019",
-        "10"
+        "2008 R2",
+        "2012 R2",
+        "2016"
+      ]
+    },
+    {
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "25"
+      ]
+    },
+    {
+      "operatingsystem": "Darwin",
+      "operatingsystemrelease": [
+        "16"
+      ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11",
+        "12"
+      ]
+    },
+    {
+      "operatingsystem": "Solaris",
+      "operatingsystemrelease": [
+        "10",
+        "11"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.10.0 < 7.0.0"
+      "version_requirement": ">= 5.3.2 < 7.0.0"
     }
   ],
   "pdk-version": "1.17.0",
