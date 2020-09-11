@@ -3,9 +3,8 @@ require 'json'
 
 class Puppet::Util::Nodegroups_api
   def initialize
-    
-    pe_agent_config = JSON.parse(Facter::Util::Resolution.exec('puppet config print --render-as json'))
-        
+    pe_agent_config = JSON.parse(Facter::Util::Resolution.exec('sudo -u root /opt/puppetlabs/bin/puppet config print --render-as json'))
+
     settings_file = "#{pe_agent_config['confdir']}/classifier.yaml"
 
     begin
