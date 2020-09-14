@@ -6,7 +6,7 @@ module PuppetX::Nodegroups::Common
   # with a key of the name and an attribute
   # hash of the rest.
   def self.hashify_group_array(group_array)
-    hashified = Hash.new
+    hashified = {}
 
     group_array.each do |group|
       hashified[group['name']] = group
@@ -16,17 +16,17 @@ module PuppetX::Nodegroups::Common
   end
 
   def self.sort_hash(data)
-    newhash = Hash.new
+    newhash = {}
     if data.is_a?(Hash)
       # .to_h method doesn't exist until Ruby 2.1.x
-      data.sort.flatten(1).each_slice(2) { |a,b| newhash[a] = b }
+      data.sort.flatten(1).each_slice(2) { |a, b| newhash[a] = b }
     end
-    newhash.each do |k,v|
-      if v.is_a?(Hash)
-        newhash[k] = sort_hash(v)
-      else
-        newhash[k] = v
-      end
+    newhash.each do |k, v|
+      newhash[k] = if v.is_a?(Hash)
+                     sort_hash(v)
+                   else
+                     v
+                   end
     end
     newhash
   end

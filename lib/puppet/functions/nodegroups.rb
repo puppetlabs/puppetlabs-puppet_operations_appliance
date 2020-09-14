@@ -14,7 +14,7 @@ Puppet::Functions.create_function(:nodegroups) do
       nc_settings = YAML.load_file(settings_file)
       nc_settings = nc_settings.first if nc_settings.class == Array
     rescue
-      fail "Could not find file #{settings_file}"
+      raise "Could not find file #{settings_file}"
     else
       cl_server       = nc_settings['server'] || puppet_settings['server']
       cl_port         = nc_settings['port']   || 4433
@@ -26,7 +26,7 @@ Puppet::Functions.create_function(:nodegroups) do
       end
       Puppet.debug("classifier_url: #{@classifier_url}")
 
-      unless @token and ! @token.empty?
+      unless @token && !@token.empty?
         @ca_certificate_path = nc_settings['localcacert'] || puppet_settings['localcacert']
         @certificate_path    = nc_settings['hostcert']    || puppet_settings['hostcert']
         @private_key_path    = nc_settings['hostprivkey'] || puppet_settings['hostprivkey']
@@ -36,7 +36,7 @@ Puppet::Functions.create_function(:nodegroups) do
     res = do_https('v1/groups', 'GET')
     if res.code.to_i != 200
       error_msg(res)
-      fail('Unable to get node_group list')
+      raise('Unable to get node_group list')
     else
       groups = JSON.parse(res.body)
     end
@@ -47,7 +47,7 @@ Puppet::Functions.create_function(:nodegroups) do
     else
       # Assuming there is only one group by the name
       hashify_group_array(
-        groups.select { |g| g['name'] == node_name }
+        groups.select { |g| g['name'] == node_name },
       )
     end
   end
@@ -57,17 +57,17 @@ Puppet::Functions.create_function(:nodegroups) do
     uri  = URI(url)
     http = Net::HTTP.new(uri.host, uri.port)
 
-    unless @token and ! @token.empty?
-      Puppet.debug('Using SSL authentication')
-      http.use_ssl     = true
-      http.cert        = OpenSSL::X509::Certificate.new(File.read @certificate_path)
-      http.key         = OpenSSL::PKey::RSA.new(File.read @private_key_path)
-      http.ca_file     = @ca_certificate_path
-      http.verify_mode = OpenSSL::SSL::VERIFY_CLIENT_ONCE
-    else
+    if @token && !@token.empty?
       Puppet.debug('Using token authentication')
       http.use_ssl     = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    else
+      Puppet.debug('Using SSL authentication')
+      http.use_ssl     = true
+      http.cert        = OpenSSL::X509::Certificate.new(File.read(@certificate_path))
+      http.key         = OpenSSL::PKey::RSA.new(File.read(@private_key_path))
+      http.ca_file     = @ca_certificate_path
+      http.verify_mode = OpenSSL::SSL::VERIFY_CLIENT_ONCE
     end
 
     req              = Net::HTTP.const_get(method.capitalize).new(uri.request_uri)
@@ -80,7 +80,7 @@ Puppet::Functions.create_function(:nodegroups) do
     begin
       res = http.request(req)
     rescue Exception => e
-      fail(e.message)
+      raise(e.message)
       debug(e.backtrace.inspect)
     else
       res
@@ -97,7 +97,7 @@ Puppet::Functions.create_function(:nodegroups) do
   end
 
   def hashify_group_array(group_array)
-    hashified = Hash.new
+    hashified = {}
 
     group_array.each do |group|
       hashified[group['name']] = group
@@ -105,5 +105,4 @@ Puppet::Functions.create_function(:nodegroups) do
 
     hashified
   end
-
 end
