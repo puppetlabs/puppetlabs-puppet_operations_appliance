@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary To deploy an Remote Support Access Node (RSAN) in a PE environment
 #
-# A description of what this class does
+# This class will serve as a profile to classify the different components of the RSAN infrastructure
 #
 # @example
 #   include rsan

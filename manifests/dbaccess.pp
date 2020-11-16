@@ -1,5 +1,5 @@
-# @summary A short summary of the purpose of this class
-#
+# @summary To Allow Database access to a Puppet Enterprise System from RSAN node
+
 # A description of what this class does
 #
 # @example
