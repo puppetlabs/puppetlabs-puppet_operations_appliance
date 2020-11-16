@@ -2,12 +2,20 @@ require 'json'
 
 Puppet::Functions.create_function(:nodegroups) do
   dispatch :nodegroups do
-    required_param 'String', :puppet_data
+    required_param 'String', :pe_server
     optional_param 'String', :node_name
   end
 
-  def nodegroups(puppet_data, node_name = '')
-    puppet_settings = JSON.parse(puppet_data)
+  def nodegroups(pe_server, node_name = '')
+    puppet_settings = {
+      'confdir'     => '/etc/puppetlabs/puppet',
+      'certname'    => pe_server,
+      'server'      => pe_server,
+      'localcacert' => '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
+      'hostcert'    => "/etc/puppetlabs/orchestration-services/ssl/#{pe_server}.cert.pem",
+      'hostprivkey' => "/etc/puppetlabs/orchestration-services/ssl/#{pe_server}.private_key.pem",
+    }
+
     settings_file = "#{puppet_settings['confdir']}/classifier.yaml"
 
     begin
