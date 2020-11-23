@@ -3,6 +3,6 @@
 # A description of what this class does
 #
 # @example
-#   include rsan::telemetry
-class rsan::telemetry {
+#   include rsan::exporter
+class rsan::exporter {
 }

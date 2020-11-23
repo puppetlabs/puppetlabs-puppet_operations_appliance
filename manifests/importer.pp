@@ -3,6 +3,6 @@
 # A description of what this class does
 #
 # @example
-#   include rsan::fileaccess
-class rsan::fileaccess {
+#   include rsan::importer
+class rsan::importer {
 }
