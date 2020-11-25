@@ -13,23 +13,20 @@
 
 ## Description
 
-This Module enables a proof of concept (POC) installation of a Remote Support Access Node(RSAN).  
+The Remote Support Access Node (RSAN) will allow Puppet support engineers to conduct live troubleshooting, resolving problems more quickly and efficiently and lead to a reduction of system disruption to the customer.  
+Customers currently must deliver large volumes of data to support and resolution time is hindered by transfer logistics and privacy concerns. This same data must then be processed by internal support engineers leading to artificially decreased capacity of the support team.
 
-The purpose of the Remote Support Access Node is to enable a server that is used to provide a live view of Logs, Metrics, and Configuration data within a Puppet Enterprise Infrastructure.
-When customers allow remote access to the RSAN available for Puppet support engineers to conduct live troubleshooting, problems are more quickly and easily identified reducing system disruption for the customer.  
-Remote Support Access Node Functions
-
-* Mount designated folders from Puppet infrastructure components as read-only to the Support remote access node.
-* PE Client tools deployed, RBAC restricted to a few functions and specific audited tasks, access is controlled by the customer
-* Grafana Metrics Dashboard
-* Read access to Live Postgres Database
+The RSAN platform is designed to be a contained infrastructure endpoint in the customer Puppet Enterprise environment, collating data and access, useful in incident resolution for the target customer deployment.
+The node will allow for read-only access to Puppet Entperise Component Data and configiration, and limit other access through Puppet Enterprise’s built-in Role Based Access Control(RBAC).
+The Node will has the functionality to make session-based outward connections towards the Puppet Support Network, controllable by the customer user in duration.
 
 
 ## Setup
 
 ### What rsan affects 
 
-RSAN will create a series of nodegroups in the Puppet Enterprise classifier for infrastructure nodes, and will apply several classes to these nodes.
+RSAN When
+
 
 ### Setup Requirements 
 Dependencies
@@ -55,22 +52,20 @@ puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
 
 ### Beginning with rsan
 
-A new Puppet agent node of the same operating System as the Master should be configured with access to the same network as the Puppet Enterprise Infrastructure components.
-This node will be referred to as the RSAN going forward.
 
 
 ## Usage
 
-Run Installation Task From the Puppet Enterprise Console run the RSAN task provided by the RSAN module;
-
-* Target Should be the MOM
-* Parameter rsannode is the FQDN of the RSAN agent
 
 
 ## Limitations
 
-Tested in Version 2019.8.1
-Currently no error handling in the installation task
-No access to databases other than pe-postgres
 
 
+## Contributions
+
+For feature development + bug reporting
+
+A Git Issue should exist or be created
+PRs should be created from a Fork
+PRS should aways reference a git issue
