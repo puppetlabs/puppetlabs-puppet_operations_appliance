@@ -18,14 +18,15 @@ Customers currently must deliver large volumes of data to support and resolution
 
 The RSAN platform is designed to be a contained infrastructure endpoint in the customer Puppet Enterprise environment, collating data and access, useful in incident resolution for the target customer deployment.
 The node will allow for read-only access to Puppet Entperise Component Data and configiration, and limit other access through Puppet Enterprise’s built-in Role Based Access Control(RBAC).
-The Node will has the functionality to make session-based outward connections towards the Puppet Support Network, controllable by the customer user in duration.
+The Node has the functionality to make session-based outward connections towards the Puppet Support Network, controllable by the customer user in duration.
 
 
 ## Setup
 
 ### What rsan affects 
 
-RSAN When
+RSAN will Export NFS mounts of key directories from each infastruture node, while also setting up requirements for gathering of metrics and Database access for the RSAN node.
+Software required for the proper functioning of the RSAN will be deployed on the target agent node.
 
 
 ### Setup Requirements 
@@ -33,7 +34,6 @@ Dependencies
 
 derdanne/nfs (>= 2.1.5)
 puppetlabs/postgresql (>= 6.6.0)
-puppetlabs/puppet_metrics_collector (>= 6.1.0)
 puppetlabs/puppet_metrics_dashboard (>= 2.3.0)
 puppetlabs/stdlib (>= 4.5.0 < 7.0.0)
 puppetlabs/concat (>= 1.1.2 < 7.0.0)
@@ -46,17 +46,23 @@ puppet-telegraf (>= 2.0.0 < 4.0.0)
 puppetlabs-apt (>= 4.3.0 < 8.0.0)
 puppetlabs-inifile (>= 2.0.0 < 5.0.0)
 puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
+puppet/openvpn (>= 8.3.0)
 
 
 
 
 ### Beginning with rsan
 
+RSAN has Two Classes:
 
+ - rsan::exporter - to be applied to all Puppet infrastructure agents - Console node group "PE Infrastructure Agent"
+ - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node
+
+Adding these two classes will set up all applications and configurations to run  RSAN
 
 ## Usage
 
-
+TBC - detailed description of feature switches and configurable parameters
 
 ## Limitations
 
@@ -64,8 +70,8 @@ puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
 
 ## Contributions
 
-For feature development + bug reporting
+For feature development + bug reporting:
 
-A Git Issue should exist or be created
-PRs should be created from a Fork
-PRS should aways reference a git issue
+ - A Git Issue should exist or be created per feature or Bug
+ - Repositary should be forked and any changes made by way of PR to the Main Branch
+ - PRS should aways reference a git issue
