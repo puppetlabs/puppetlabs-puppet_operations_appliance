@@ -11,6 +11,9 @@ class rsan::exporter {
 # Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
 #########################################################################
 
+# Using pql to query for list of ip adresses
+
+inventory[network] { latest_report? = true }
 
 
 
