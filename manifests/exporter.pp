@@ -13,8 +13,29 @@ class rsan::exporter {
 
 # Using pql to query for list of ip adresses
 
-inventory[network] { latest_report? = true }
-
+# Query all latest reports and show the ip address
+rsanip { 
+  inventory[network] { latest_report? = true }
+  }
+  
+ class { '::nfs':
+  server_enabled => true
+  }
+  nfs::server::export{ '/var/log/':
+  ensure  => 'mounted',
+  clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+  mount   => "/var/pesupport/${facts['fqdn']}/log",
+  }
+  nfs::server::export{ '/opt/puppetlabs/':
+  ensure  => 'mounted',
+  clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+  mount   => "/var/pesupport/${facts['fqdn']}/opt",
+  }
+  nfs::server::export{ '/etc/puppetlabs/':
+  ensure  => 'mounted',
+  clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+  mount   => "/var/pesupport/${facts['fqdn']}/etc",
+  }
 
 
 ######################2. Metrics Dash Board deployment ###############
