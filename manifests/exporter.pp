@@ -13,10 +13,19 @@ class rsan::exporter {
 
 # Using pql to query for list of ip adresses
 
-# Query all latest reports and show the ip address
+# Query all latest reports and show the ip address just for the rsan node
+
+#if statement, if IP parameter left empty then assume this below
+
 rsanip { 
-  inventory[network] { latest_report? = true }
+  inventory[network] { class = rsan }
   }
+  
+  
+# if fqdn if left empty then use fact. If not then use 
+
+rsanfqdn
+
   
  class { '::nfs':
   server_enabled => true
