@@ -20,16 +20,25 @@ class rsan::importer {
   ################### 3. Telemetry dashboard ########################################
   # If using puppet_metrics_dashboard:
 
-    #   class { 'puppet_metrics_dashboard':
-      # add_dashboard_examples => true,
-      # overwrite_dashboards   => false,
-      # configure_telegraf     => true,
-      #enable_telegraf        => true,
-      #master_list            => $infranode,
-      #puppetdb_list          => [$pdb],
-      #postgres_host_list     => [$postgres],
+  #
+  # this is where lists of master_list , puppetdb_list, postgres_host_list hosts are found using a puppetdb query
+  #
 
-      #}
+
+  #make sure each list is same format
+
+  #conditions of whether postgres is present or not
+
+  #in the below class 
+    class { 'puppet_metrics_dashboard':
+      add_dashboard_examples => true,
+      overwrite_dashboards   => false,
+      configure_telegraf     => true,
+      enable_telegraf        => true,
+      master_list            => $infranode,
+      puppetdb_list          => [$pdb],
+      postgres_host_list     => [$postgres],
+    }
 
       # master_list , puppetdb_list, postgres_host_list need to be queried  from the system programatically
 
