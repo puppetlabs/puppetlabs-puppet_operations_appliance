@@ -25,7 +25,7 @@ class rsan::exporter {
 # Determine if node is pe_postgres host and conditionally apply include puppet_metrics_dashboard::profile::master::postgres_access
 ######################################################################
 
-#The following code serves to check that postgres is present. No action taken apart from message printed.
+#The following code serves to check that postgres is present and then declares the class
 #TODO remove notify after testing
 
 if $pe_postgresql_info != undef {
