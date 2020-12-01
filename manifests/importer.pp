@@ -26,7 +26,7 @@ class rsan::importer {
 
   function puppet_enterprise::active_puppetdb_hosts() {
     if $settings::storeconfigs {
-      $active_puppetdb_hosts =
+      $pdb =
                   puppetdb_query('resources[certname] {
                       type = "Class" and
                       title = "Puppet_enterprise::Profile::Puppetdb" and
@@ -36,10 +36,10 @@ class rsan::importer {
                       }
                     }').map |$data| { $data['certname'] }
     } else {
-      $active_puppetdb_hosts = []
+      $pdb = []
   }
 
-  pe_sort($active_puppetdb_hosts)
+  pe_sort($pdb)
 }
 
 
