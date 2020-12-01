@@ -28,7 +28,8 @@ class rsan::exporter {
 #The following code serves to check that postgres is present. No action taken apart from message printed.
 
 if $pe_postgresql_info != undef {
-  notify { "postgres is present" }
+  notify { "postgres is present, applying class" }
+  include puppet_metrics_dashboard::profile::master::postgres_access
 } else {
   notify { "postgres is not present"
 }
