@@ -26,7 +26,6 @@ class rsan::exporter {
 ######################################################################
 
 #The following code serves to check that postgres is present and then declares the class
-#TODO remove notify after testing
 
 if $::pe_postgresql_info != undef {
   include puppet_metrics_dashboard::profile::master::postgres_access
