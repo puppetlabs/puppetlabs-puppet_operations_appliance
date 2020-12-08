@@ -22,7 +22,7 @@ class rsanip (
     # if fqdn if left empty then use fact. If not then use 
         if $rsan_ip { 
     inventory[network] { resources { type  = "Class" and
-                                    title = "RSAN" } 
+                                    title = "rsan::importer" } 
     }
 }
   
