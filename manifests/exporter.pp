@@ -27,7 +27,6 @@ class rsan::exporter {
 
 #The following code serves to check that postgres is present and then declares the class
 #TODO remove notify after testing
-#this is testing
 
 if $pe_postgresql_info != undef {
   notify { "postgres is present, applying class" }
