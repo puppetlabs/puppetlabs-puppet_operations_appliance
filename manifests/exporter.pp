@@ -1,5 +1,6 @@
 #
-# When Applied to the Infrastruture Agent Node group, Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
+# When Applied to the Infrastruture Agent Node group, Will dynamically configure 
+#all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
 # 
 # @example
 #   include rsan::exporter
@@ -28,11 +29,8 @@ class rsan::exporter {
 #The following code serves to check that postgres is present and then declares the class
 #TODO remove notify after testing
 
-if $pe_postgresql_info != undef {
-  notify { "postgres is present, applying class" }
+if $::pe_postgresql_info != undef {
   include puppet_metrics_dashboard::profile::master::postgres_access
-} else {
-  notify { "postgres is not present"
 }
 
 
