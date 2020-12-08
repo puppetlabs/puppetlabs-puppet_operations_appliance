@@ -32,7 +32,6 @@ if $::pe_postgresql_info != undef {
   include puppet_metrics_dashboard::profile::master::postgres_access
 }
 
-#test
 
 
 #####################3. RSANpostgres command access ######################
