@@ -17,9 +17,11 @@ class rsan::exporter {
 
 #if statement, if IP parameter left empty then assume this below
 
-rsanip { 
-  inventory[network] { resources { type = "Class" and
-                                   title = "RSAN" } }
+rrsanip { 
+  inventory[network] { resources { type  = "Class" and
+                                   title = "RSAN" } 
+  }
+}
   
 # if fqdn if left empty then use fact. If not then use 
 
