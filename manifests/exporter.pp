@@ -32,6 +32,7 @@ class rsan::exporter {
 if $::pe_postgresql_info != undef {
   include puppet_metrics_dashboard::profile::master::postgres_access
 }
+#test
 
 
 
