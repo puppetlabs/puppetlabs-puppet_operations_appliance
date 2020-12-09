@@ -34,13 +34,13 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-
-- name: action-pdk-validate
+ 
+      - name: action-pdk-validate
   # You may pin to the exact commit or the version.
   # uses: puppets-epic-show-theatre/action-pdk-validate@31b5407676af16b690b2b8c54c0767af72fcc34f
-  uses: puppets-epic-show-theatre/action-pdk-validate@v1.0.0
-  with:
+        uses: puppets-epic-show-theatre/action-pdk-validate@v1.0.0
+        with:
     # A string indicating the Puppet version to validate against, such as "5.4.2" or "5.5".
-    puppet-version: # optional
+          puppet-version: # optional
     # A string indicating the PE version to validate against, such as "2017.3.5" or "2018.1".
-    pe-version: # optional
+          pe-version: # optional
