@@ -2,7 +2,11 @@
 # when applied to a node, all tooling agttributed to RSAN will be set up
 # @example
 #   include rsan::importer
-class rsan::importer {
+class rsan::importer { (
+  Array $puppet_servers
+  Array $puppetdb_hosts
+  Array $postgres_hosts
+)
 
 
 
@@ -28,7 +32,7 @@ class rsan::importer {
 
   #in the below class 
 
-    $puppet_severs = rsan::get_puppet_servers()
+    $puppet_servers = rsan::get_puppet_servers()
     $puppetdb_hosts = rsan::get_puppetdb_hosts()
     $postgres_hosts = rsan::get_postgres_hosts()
 
