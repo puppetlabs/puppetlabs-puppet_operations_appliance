@@ -5,20 +5,12 @@
 #   include rsan::exporter
 class rsan::exporter {
 
-
-
 ########################1.  Export Logging Function######################
 # Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
 #########################################################################
 
-# Using pql to query for list of ip adresses
-
-# Query all latest reports and show the ip address just for the rsan node
-
-#if statement, if IP parameter left empty then assume this below
-class rsanip (
     Optional[] $rsan_ip = undef,
-    ) {
+    } {
     # if fqdn if left empty then use fact. If not then use 
         if $rsan_ip { 
     inventory[network] { resources { type  = "Class" and
