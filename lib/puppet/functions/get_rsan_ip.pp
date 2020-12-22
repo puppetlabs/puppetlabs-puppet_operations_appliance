@@ -1,4 +1,4 @@
-function rsan::get_rsan_ip() {
+function Functions::get_rsan_ip() {
   if $settings::storeconfigs {
     $rsan_ip =
                 puppetdb_query('resources[network] {
