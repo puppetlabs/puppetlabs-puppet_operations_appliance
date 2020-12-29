@@ -1,5 +1,6 @@
 #
-# When Applied to the Infrastruture Agent Node group, Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
+# When Applied to the Infrastruture Agent Node group,
+#Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
 # 
 # @example
 #   include rsan::exporter

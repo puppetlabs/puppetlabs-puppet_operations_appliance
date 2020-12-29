@@ -1,4 +1,3 @@
-# Class to consume the resources provided by the exporter class.
 # when applied to a node, all tooling agttributed to RSAN will be set up
 # @example
 #   include rsan::importer
@@ -44,8 +43,15 @@ class rsan::importer {
   # Task to enable and disable connection
   ######################################################################################
 
+      $openvpn_dir  = '/etc/openvpn'
+      $package_name = 'openvpn'
+      $service_name = 'openvpn'
 
 
+      package {$package_name: ensure => 'present' }
 
-
+      service { $package_name:
+                enable  => true,
+                require => Package[$package_name],
+              }
 }
