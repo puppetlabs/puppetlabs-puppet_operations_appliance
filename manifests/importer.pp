@@ -43,9 +43,8 @@ class rsan::importer {
   # Task to enable and disable connection
   ######################################################################################
 
-      $openvpn_dir  = '/etc/openvpn'
+      $openvpn_dir  = '/etc/openvpn/client'
       $package_name = 'openvpn'
-      $service_name = 'openvpn'
 
 
       package {$package_name: ensure => 'present' }
