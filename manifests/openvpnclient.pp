@@ -59,5 +59,4 @@ define rsan::openvpnclient (
   }
 
   File["${rsan::importer::openvpn_dir}/${server}.conf"]
-  ~> Service[$rsan::importer::service_name]
 }
