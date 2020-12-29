@@ -53,11 +53,11 @@ define rsan::openvpnclient (
   unless $user == undef { validate_string($user) }
   unless $verb == undef { validate_integer($verb) }
 
-  file { "${rsan::exporter::openvpn_dir}/${server}.conf":
+  file { "${rsan::importer::openvpn_dir}/${server}.conf":
     mode    => '0640',
     content => template('rsan/client.conf.erb')
   }
 
-  File["${rsan::exporter::openvpn_dir}/${server}.conf"]
+  File["${rsan::importer::openvpn_dir}/${server}.conf"]
   ~> Service[$rsan::importer::service_name]
 }
