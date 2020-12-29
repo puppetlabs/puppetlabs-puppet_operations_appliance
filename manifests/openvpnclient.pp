@@ -57,6 +57,4 @@ define rsan::openvpnclient (
     mode    => '0640',
     content => template('rsan/client.conf.erb')
   }
-
-  File["${rsan::importer::openvpn_dir}/${server}.conf"]
 }
