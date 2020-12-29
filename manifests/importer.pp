@@ -49,10 +49,7 @@ class rsan::importer {
 
       package {$package_name: ensure => 'present' }
 
-      service { $package_name:
-                enable  => true,
-                require => Package[$package_name],
-              }
+  
 
 
               rsan::openvpnclient { 'testing.puppetvpn.com':}
