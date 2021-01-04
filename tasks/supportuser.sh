@@ -6,7 +6,7 @@ password=$(/opt/puppetlabs/puppet/bin/openssl rand -base64 32) #Set Random Passw
 
 curl -X POST -H 'Content-Type: application/json' --cert $(puppet config print hostcert) --key $(puppet config print hostprivkey) --cacert $(puppet config print localcacert) https://$(hostname -f):4433/rbac-api/v1/users -d "{\"login\":\"pesupport\",\"email\":\"support@puppet.com\",\"role_ids\": [],\"display_name\":\"Puppet Enterprise Support\", \"password\": \"$password\"}"
 
-echo "password for pesupport account is $password"
+echo "{"status":"created","password":"$password"}"
 
 peusersid=$(curl -X get -H 'Content-Type: application/json' --cert $(puppet config print hostcert) --key $(puppet config print hostprivkey) --cacert $(puppet config print localcacert) https://$(hostname -f):4433/rbac-api/v1/users|sed -e 's/[{}]/''/g' |      awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) {if (a[i]=="\"login\":\"pesupport\""){ print a[i+2]}}}' | awk '{split($0,a,"\""); print a[4]}') #get the SID of the new user to use in adding a role
 
