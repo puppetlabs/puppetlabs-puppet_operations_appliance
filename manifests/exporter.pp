@@ -9,17 +9,7 @@ class rsan::exporter {
 # Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
 #########################################################################
 
-    Optional[] $rsan_ip = undef,
-    } {
-    # if fqdn if left empty then use fact. If not then use 
-        if $rsan_ip { 
-    inventory[network] { resources { type  = "Class" and
-                                    title = "rsan::importer" } 
-    }
-}
-  
-
- class { '::nfs':
+class { '::nfs':
   server_enabled => true
   }
   nfs::server::export{ '/var/log/':
