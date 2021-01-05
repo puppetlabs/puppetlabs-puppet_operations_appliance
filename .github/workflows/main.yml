@@ -34,21 +34,3 @@ jobs:
           puppet-version: # optional
     # A string indicating the PE version to validate against, such as "2017.3.5" or "2018.1".
           pe-version: # optional
-
-      - name: ShellCheck
-  # You may pin to the exact commit or the version.
-  # uses: ludeeus/action-shellcheck@d586102c117f97e63d7e3b56629d269efc9a7c60
-        uses: ludeeus/action-shellcheck@1.0.0
-        with:
-    # A space seperated list of additional filename to check
-          additional_files: # optional, default is 
-    # Paths to ignore when running ShellCheck
-          ignore: # optional, default is 
-    # Minimum severity of errors to consider. Options: [error, warning, info, style]
-          severity: # optional, default is 
-    # Run shellcheck on _all_ files at once, instead of one at a time
-          check_together: # optional, default is 
-    # Directory to be searched for files. Defaults to .
-          scandir: # optional, default is .
-    # Set to true to skip using problem-matcher
-          disable_matcher: # optional, default is false
