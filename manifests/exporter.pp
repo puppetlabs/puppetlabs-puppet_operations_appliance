@@ -29,7 +29,7 @@ include puppet_metrics_dashboard::profile::master::install
 
 #The following code serves to check that postgres is present and then declares the class
 
-if $::pe_postgresql_info != undef {
+if $facts['pe_postgresql_info'] != undef {
   include puppet_metrics_dashboard::profile::master::postgres_access
 }
 
@@ -40,7 +40,7 @@ if $::pe_postgresql_info != undef {
 # Hint metrics dashboard postgres access code can be duplicated and repurposed
 ######################################################################
 
-if $::pe_postgresql_info != undef {
+if $facts['pe_postgresql_info'] != undef {
 
   if $rsan_host {
     $_rsan_host = $rsan_host
@@ -70,12 +70,14 @@ if $::pe_postgresql_info != undef {
 
     pe_postgresql::server::role { 'rsan': }
 
-    pe_postgresql::server::database_grant { 'rsan':
-      privilege => 'SELECT',
-      db        => 'pe-puppetdb',
-      role      => 'rsan',
+    $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator', 'pe-postgres']
+    $dbs.each |$db|{
+      pe_postgresql::server::database_grant { 'rsan':
+        privilege => 'SELECT',
+        db        => $db,
+        role      => 'rsan',
+      }
     }
-
     # If the fact doesn't exist then PostgreSQL is probably version 9.4.
 
     if $facts['pe_postgresql_info']['installed_server_version'] {
