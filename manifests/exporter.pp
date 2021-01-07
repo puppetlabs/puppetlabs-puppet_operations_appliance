@@ -3,7 +3,11 @@
 # 
 # @example
 #   include rsan::exporter
-class rsan::exporter {
+class rsan::exporter (
+
+  Array $rsanip = rsan::get_rsan_ip()
+
+) {
 
 ########################1.  Export Logging Function######################
 # Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
