@@ -49,7 +49,7 @@ class rsan::exporter(
     } else {
       $_query = puppetdb_query('resources[certname] {
         type = "Class" and
-        title = "Rsan::Importer" and
+        title = "Rsan::Importer" and             
         nodes {
           deactivated is null and
           expired is null
@@ -74,7 +74,7 @@ class rsan::exporter(
 
       $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator', 'pe-postgres']
       $dbs.each |$db|{
-        pe_postgresql::server::database_grant { 'rsan':
+        pe_postgresql::server::database_grant { "SELECT to rsan for ${db}":
           privilege => 'SELECT',
           db        => $db,
           role      => 'rsan',
