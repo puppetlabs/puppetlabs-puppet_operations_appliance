@@ -21,19 +21,19 @@ class rsan::exporter (
     ensure  => 'mounted',
     clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
     mount   => "/var/pesupport/${facts['fqdn']}/log",
-    nfstag  => rsan,
+ #   nfstag  => rsan,
   }
   nfs::server::export{ '/opt/puppetlabs/':
     ensure  => 'mounted',
     clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
     mount   => "/var/pesupport/${facts['fqdn']}/opt",
-    nfstag  => rsan,
+ #   nfstag  => rsan,
   }
   nfs::server::export{ '/etc/puppetlabs/':
     ensure  => 'mounted',
     clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
     mount   => "/var/pesupport/${facts['fqdn']}/etc",
-    nfstag  => rsan,
+ #   nfstag  => rsan,
   }
 
 
