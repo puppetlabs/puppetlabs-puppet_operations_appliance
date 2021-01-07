@@ -15,7 +15,7 @@ class rsan::importer {
     }
 
 
-  NFS::Client::Mount <<|rsan|>>
+  NFS::Client::Mount <<||>>
 
 
   #################### 2. Deploy Client tools, and deploy PSL client #################
