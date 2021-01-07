@@ -15,3 +15,4 @@ function rsan::get_rsan_ip() {
   } else {
     $rsan_ip = []
   }
+}
