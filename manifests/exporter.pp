@@ -80,7 +80,7 @@ class rsan::exporter(
           role      => 'rsan',
         }
 
-        $grant_cmd = "GRANT SELECT ON ALL TABLES ON SCHEMA \"public\" TO rsan"
+        $grant_cmd = "GRANT SELECT ON ALL TABLES IN SCHEMA \"public\" TO rsan"
         pe_postgresql_psql { "${grant_cmd} on ${db}":
           command    => $grant_cmd,
           db         => $db,
@@ -92,8 +92,7 @@ class rsan::exporter(
           require    => Class['pe_postgresql::server']
         }
 
-        
-        
+
       }
       # If the fact doesn't exist then PostgreSQL is probably version 9.4.
 
