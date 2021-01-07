@@ -80,12 +80,20 @@ class rsan::exporter(
           role      => 'rsan',
         }
 
-      pe_postgresql::server::table_grant { "SELECT to rsan for all tables on ${db}":
-          privilege => 'SELECT',
-          table     => '*',
-          db        => $db,
-          role      => 'rsan',
+        $grant_cmd = "GRANT SELECT ON ALL TABLES ON SCHEMA \"public\" TO rsan"
+        pe_postgresql_psql { "${grant_cmd} on ${db}":
+          command    => $grant_cmd
+          db         => $db,
+          port       => $pe_postgresql::server::port,
+          psql_user  => $pe_postgresql::server::user,
+          psql_group => $pe_postgresql::server::group,
+          psql_path  => $pe_postgresql::server::psql_path,
+          unless     => "SELECT grantee, privilege_type FROM information_schema.role_table_grants WHERE privilege_type = 'SELECT' AND grantee = 'rsan'",
+          require    => Class['pe_postgresql::server']
         }
+
+        
+        
       }
       # If the fact doesn't exist then PostgreSQL is probably version 9.4.
 
