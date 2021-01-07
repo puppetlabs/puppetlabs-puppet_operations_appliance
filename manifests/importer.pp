@@ -8,8 +8,6 @@ class rsan::importer { (
   Array $postgres_hosts
 )
 
-  include postgresql::client
-
   ##################### 1.Import logging from the exporter groups #####################
   # depending on the method, could be import exported respore with rsan tag
   #####################################################################################
@@ -19,7 +17,7 @@ class rsan::importer { (
   #################### 2. Deploy Client tools, and deploy PSL client #################
   # include postgresql::client , include puppet_enterprise::profile::controller need to make postgresql module a dependancies
   ####################################################################################
-
+  include postgresql::client
 
   ################### 3. Telemetry dashboard ########################################
   # If using puppet_metrics_dashboard:
@@ -31,21 +29,23 @@ class rsan::importer { (
   #conditions of whether postgres is present or not
 
   #in the below class 
-
-    $puppet_servers = rsan::get_puppet_servers()
-
-    $puppetdb_hosts = rsan::get_puppetdb_hosts()
-    $postgres_hosts = rsan::get_postgres_hosts()
-
-    class { 'puppet_metrics_dashboard':
-      add_dashboard_examples => true,
-      overwrite_dashboards   => false,
-      configure_telegraf     => true,
-      enable_telegraf        => true,
-      master_list            => $puppet_servers,
-      puppetdb_list          => $puppetdb_hosts,
-      postgres_host_list     => $postgres_hosts,
+    if $puppet_servers == undef {
+      $puppet_servers = rsan::get_puppet_servers()
     }
+
+    else
+      $puppetdb_hosts = rsan::get_puppetdb_hosts()
+      $postgres_hosts = rsan::get_postgres_hosts()
+
+      class { 'puppet_metrics_dashboard':
+        add_dashboard_examples => true,
+        overwrite_dashboards   => false,
+        configure_telegraf     => true,
+        enable_telegraf        => true,
+        master_list            => $puppet_servers,
+        puppetdb_list          => $puppetdb_hosts,
+        postgres_host_list     => $postgres_hosts,
+      }
 
       # master_list , puppetdb_list, postgres_host_list need to be queried  from the system programatically
 
