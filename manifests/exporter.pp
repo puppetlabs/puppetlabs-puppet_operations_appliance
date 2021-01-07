@@ -49,7 +49,7 @@ class rsan::exporter(
     } else {
       $_query = puppetdb_query('resources[certname] {
         type = "Class" and
-        title = "Rsan" and
+        title = "Rsan::Importer" and
         nodes {
           deactivated is null and
           expired is null
