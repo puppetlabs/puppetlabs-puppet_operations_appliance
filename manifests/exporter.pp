@@ -11,7 +11,7 @@
 #   include rsan::exporter
 
 class rsan::exporter (
-  Array $rsan_importer_ips = rsan::rsan_importer_ips(),
+  Array $rsan_importer_ips = rsan::get_rsan_importer_ips(),
   Optional[String] $rsan_host = undef,
 ){
 
