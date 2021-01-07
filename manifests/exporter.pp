@@ -1,14 +1,18 @@
 #
 # When Applied to the Infrastruture Agent Node group, 
 #Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
+# @param [Array] rsan_ip_list
+#   An array of rsan ip addresses
+#   Defaults to the output of a PuppetDB query
+# @param [String] rsan_host
+#   The certname of the rsan node
 # 
 # @example
 #   include rsan::exporter
 
 class rsan::exporter (
-  $rsan_host = undef,
-  Array $rsanip = rsan::get_rsan_ip(),
-
+  Array $rsan_importer_ips = rsan::rsan_importer_ips(),
+  Optional[String] $rsan_host = undef,
 ){
 
 ########################1.  Export Logging Function######################
@@ -19,7 +23,13 @@ class rsan::exporter (
     server_enabled => true
   }
 
-  $_rsan_clients = $rsanip.reduce('') |$memo, $ip| {
+# Convert the array of RSAN IP address into an list of clients with options for the NFS export.
+# This reduce will return a string of space deliminated IP addresses with the NFS options.
+# For example, the output for ['1.2.3.4'] is " 1.2.3.4(ro,insecure,async,no_root_squash)"
+# For example, the output for ['1.2.3.4', '5.6.7.8'] is 
+#   " 1.2.3.4(ro,insecure,async,no_root_squash) 5.6.7.8(ro,insecure,async,no_root_squash)"
+
+  $_rsan_clients = $rsan_importer_ips.reduce('') |$memo, $ip| {
     "${memo} ${ip}(ro,insecure,async,no_root_squash)"
   }
   $clients = "${_rsan_clients} localhost(ro)"

@@ -1,6 +1,7 @@
-function rsan::get_rsan_ip() {
+# @return [Array] List of IP addresses for RSAN nodes or an empty array
+function rsan::get_rsan_importer_ips() {
   if $settings::storeconfigs {
-    $rsan_ip =
+    $rsan_importer_ips =
       puppetdb_query('facts[value]{
         name = "ipaddress" and
         certname in resources[certname] {
@@ -13,6 +14,6 @@ function rsan::get_rsan_ip() {
           }
         }').map |$data| { $data['value'] }
   } else {
-    $rsan_ip = []
+    $rsan_importer_ips = []
   }
 }
