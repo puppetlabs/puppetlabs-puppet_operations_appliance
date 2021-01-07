@@ -5,7 +5,7 @@
 #   include rsan::exporter
 class rsan::exporter (
 
-  Array $rsanip = rsan::get_rsan_ip()
+  String $rsanip = rsan::get_rsan_ip()
 
 ){
 
