@@ -33,19 +33,18 @@ class rsan::importer { (
       $puppet_servers = rsan::get_puppet_servers()
     }
 
-    else
-      $puppetdb_hosts = rsan::get_puppetdb_hosts()
-      $postgres_hosts = rsan::get_postgres_hosts()
+    $puppetdb_hosts = rsan::get_puppetdb_hosts()
+    $postgres_hosts = rsan::get_postgres_hosts()
 
-      class { 'puppet_metrics_dashboard':
-        add_dashboard_examples => true,
-        overwrite_dashboards   => false,
-        configure_telegraf     => true,
-        enable_telegraf        => true,
-        master_list            => $puppet_servers,
-        puppetdb_list          => $puppetdb_hosts,
-        postgres_host_list     => $postgres_hosts,
-      }
+    class { 'puppet_metrics_dashboard':
+      add_dashboard_examples => true,
+      overwrite_dashboards   => false,
+      configure_telegraf     => true,
+      enable_telegraf        => true,
+      master_list            => $puppet_servers,
+      puppetdb_list          => $puppetdb_hosts,
+      postgres_host_list     => $postgres_hosts,
+    }
 
       # master_list , puppetdb_list, postgres_host_list need to be queried  from the system programatically
 
