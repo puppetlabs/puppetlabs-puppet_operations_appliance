@@ -1,7 +1,10 @@
 # hello
 module PuppetX; end
+
+# 
 module PuppetX::Nodegroups; end
 
+# 
 module PuppetX::Nodegroups::Common
   # Transform the node group array in to a hash
   # with a key of the name and an attribute
