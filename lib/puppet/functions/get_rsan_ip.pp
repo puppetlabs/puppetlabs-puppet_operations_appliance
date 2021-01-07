@@ -8,7 +8,7 @@ function Functions::get_rsan_ip() {
                       deactivated is null and
                       expired is null
                     }
-                  }').map |$data| { $data['certname'] }
+                  }').map |$data| { $data['network'] }
   } else {
     $rsan_ip = []
   }
