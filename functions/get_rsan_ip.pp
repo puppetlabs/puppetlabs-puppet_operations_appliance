@@ -11,7 +11,7 @@ function rsan::get_rsan_ip() {
             expired is null
             }
           }
-        }').map |$data| { $data['value'] }
+        }').map |$data| { $data[value] }
   } else {
     $rsan_ip = []
   }
