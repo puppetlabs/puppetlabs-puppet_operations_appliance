@@ -13,7 +13,7 @@ class { '::nfs':
   server_enabled => true
   }
   nfs::server::export{ '/var/log/':
-  ensure  => 'mounted',
+    ensure  => 'mounted',
   clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
   mount   => "/var/pesupport/${facts['fqdn']}/log",
   }
