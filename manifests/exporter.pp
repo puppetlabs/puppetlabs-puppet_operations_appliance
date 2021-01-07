@@ -88,7 +88,7 @@ class rsan::exporter(
         $postgres_version = '9.4'
       }
 
-      puppet_enterprise::pg::cert_whitelist_entry { 'allow-rsan-access':
+      puppet_enterprise::pg::cert_allowlist_entry { 'allow-rsan-access':
         user                          => 'rsan',
         database                      => 'pe-puppetdb',
         allowed_client_certname       => $_rsan_host,
