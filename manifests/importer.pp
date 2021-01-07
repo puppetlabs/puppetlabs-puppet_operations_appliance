@@ -16,6 +16,7 @@ class rsan::importer {
   # include postgresql::client , include puppet_enterprise::profile::controller need to make postgresql module a dependancies
   ####################################################################################
 
+  include puppet_enterprise::profile::controller
 
   ################### 3. Telemetry dashboard ########################################
   # If using puppet_metrics_dashboard:

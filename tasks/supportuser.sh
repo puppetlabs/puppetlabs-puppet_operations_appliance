@@ -2,27 +2,13 @@
 
 # Puppet Task Name: supportuser
 #
-# This is where you put the shell code for your task.
-#
-# You can write Puppet tasks in any language you want and it's easy to
-# adapt an existing Python, PowerShell, Ruby, etc. script. Learn more at:
-# https://puppet.com/docs/bolt/0.x/writing_tasks.html
-#
-# Puppet tasks make it easy for you to enable others to use your script. Tasks
-# describe what it does, explains parameters and which are required or optional,
-# as well as validates parameter type. For examples, if parameter "instances"
-# must be an integer and the optional "datacenter" parameter must be one of
-# portland, sydney, belfast or singapore then the .json file
-# would include:
-#   "parameters": {
-#     "instances": {
-#       "description": "Number of instances to create",
-#       "type": "Integer"
-#     },
-#     "datacenter": {
-#       "description": "Datacenter where instances will be created",
-#       "type": "Enum[portland, sydney, belfast, singapore]"
-#     }
-#   }
-# Learn more at: https://puppet.com/docs/bolt/0.x/writing_tasks.html#ariaid-title11
-#
+password=$(/opt/puppetlabs/puppet/bin/openssl rand -base64 32) #Set Random Password for Support Client tools account
+
+curl -X POST -H 'Content-Type: application/json' --cert $(puppet config print hostcert) --key $(puppet config print hostprivkey) --cacert $(puppet config print localcacert) https://$(hostname -f):4433/rbac-api/v1/users -d "{\"login\":\"pesupport\",\"email\":\"support@puppet.com\",\"role_ids\": [],\"display_name\":\"Puppet Enterprise Support\", \"password\": \"$password\"}"
+
+echo "{\"status\":\"created\",\"password\":\"$password\"}"
+
+peusersid=$(curl -X get -H 'Content-Type: application/json' --cert $(puppet config print hostcert) --key $(puppet config print hostprivkey) --cacert $(puppet config print localcacert) https://$(hostname -f):4433/rbac-api/v1/users|sed -e 's/[{}]/''/g' |      awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) {if (a[i]=="\"login\":\"pesupport\""){ print a[i+2]}}}' | awk '{split($0,a,"\""); print a[4]}') #get the SID of the new user to use in adding a role
+
+
+curl -X POST -H 'Content-Type: application/json' --cert $(puppet config print hostcert) --key $(puppet config print hostprivkey) --cacert $(puppet config print localcacert) https://$(hostname -f):4433/rbac-api/v1/roles -d "{\"description\":\"Puppet Enterprise Support user role\",\"display_name\":\"PE Suport Role\",\"user_ids\":[\"$peusersid\"],\"group_ids\":[],\"permissions\":[{\"object_type\":\"node_groups\",\"action\":\"view\",\"instance\":\"*\"}]}"  #create role add user
