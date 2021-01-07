@@ -6,8 +6,8 @@
 #   include rsan::exporter
 
 class rsan::exporter (
-  $rsan_host = undef
-  String $rsanip = rsan::get_rsan_ip()
+  $rsan_host = undef,
+  String $rsanip = rsan::get_rsan_ip(),
 
 ){
 
