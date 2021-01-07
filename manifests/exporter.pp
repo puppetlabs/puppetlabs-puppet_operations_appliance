@@ -66,7 +66,7 @@ class rsan::exporter (
   # and conditionally apply include puppet_metrics_dashboard::profile::master::postgres_access
   ######################################################################
 
-  if $facts['pe_postgresql_info'] != undef and $facts['pe_postgresql_info']['installed_server_version'] {
+  if $facts['pe_postgresql_info'] != undef and $facts['pe_postgresql_info']['installed_server_version'] != '' {
 
     include puppet_metrics_dashboard::profile::master::postgres_access
 
