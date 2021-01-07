@@ -13,7 +13,10 @@ class rsan::importer {
   #################### 2. Deploy Client tools, and deploy PSL client #################
   # include postgresql::client , include puppet_enterprise::profile::controller need to make postgresql module a dependancies
   ####################################################################################
+
   include postgresql::client
+  include puppet_enterprise::profile::controller
+
 
   ################### 3. Telemetry dashboard ########################################
   # If using puppet_metrics_dashboard:
