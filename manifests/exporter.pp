@@ -7,7 +7,7 @@
 
 class rsan::exporter (
   $rsan_host = undef,
-  String $rsanip = rsan::get_rsan_ip(),
+  Array $rsanip = rsan::get_rsan_ip(),
 
 ){
 
@@ -19,21 +19,26 @@ class rsan::exporter (
     server_enabled => true
   }
 
+  $_rsan_clients = $rsanip.reduce('') |$memo, $ip| {
+    "${memo} ${ip}(ro,insecure,async,no_root_squash)"
+  }
+  $clients = "${_rsan_clients} localhost(ro)"
+
   nfs::server::export{ '/var/log/':
     ensure  => 'mounted',
-    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    clients => $clients,
     mount   => "/var/pesupport/${facts['fqdn']}/log",
   #  nfstag  => rsan,
   }
   nfs::server::export{ '/opt/puppetlabs/':
     ensure  => 'mounted',
-    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    clients => $clients,
     mount   => "/var/pesupport/${facts['fqdn']}/opt",
   #  nfstag  => rsan,
   }
   nfs::server::export{ '/etc/puppetlabs/':
     ensure  => 'mounted',
-    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    clients => $clients,
     mount   => "/var/pesupport/${facts['fqdn']}/etc",
   #  nfstag  => rsan,
   }
