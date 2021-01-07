@@ -82,7 +82,7 @@ class rsan::exporter(
 
         $grant_cmd = "GRANT SELECT ON ALL TABLES ON SCHEMA \"public\" TO rsan"
         pe_postgresql_psql { "${grant_cmd} on ${db}":
-          command    => $grant_cmd
+          command    => $grant_cmd,
           db         => $db,
           port       => $pe_postgresql::server::port,
           psql_user  => $pe_postgresql::server::user,
