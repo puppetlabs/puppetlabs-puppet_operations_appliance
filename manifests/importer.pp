@@ -8,7 +8,7 @@ class rsan::importer { (
   Array $postgres_hosts
 )
 
-
+  include postgresql::client
 
   ##################### 1.Import logging from the exporter groups #####################
   # depending on the method, could be import exported respore with rsan tag
@@ -33,6 +33,7 @@ class rsan::importer { (
   #in the below class 
 
     $puppet_servers = rsan::get_puppet_servers()
+
     $puppetdb_hosts = rsan::get_puppetdb_hosts()
     $postgres_hosts = rsan::get_postgres_hosts()
 
