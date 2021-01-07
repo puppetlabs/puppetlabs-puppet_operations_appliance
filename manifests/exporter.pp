@@ -72,6 +72,12 @@ class rsan::exporter(
 
       pe_postgresql::server::role { 'rsan': }
 
+      if $facts['pe_postgresql_info']['installed_server_version'] {
+        $postgres_version = $facts['pe_postgresql_info']['installed_server_version']
+      } else {
+        $postgres_version = '9.4'
+      }
+
       $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator']
       $dbs.each |$db|{
         pe_postgresql::server::database_grant { "CONNECT to rsan for ${db}":
@@ -96,23 +102,14 @@ class rsan::exporter(
           ]
         }
 
-
-      }
-      # If the fact doesn't exist then PostgreSQL is probably version 9.4.
-
-      if $facts['pe_postgresql_info']['installed_server_version'] {
-        $postgres_version = $facts['pe_postgresql_info']['installed_server_version']
-      } else {
-        $postgres_version = '9.4'
-      }
-
-      puppet_enterprise::pg::cert_allowlist_entry { 'allow-rsan-access':
-        user                          => 'rsan',
-        database                      => 'pe-puppetdb',
-        allowed_client_certname       => $_rsan_host,
-        pg_ident_conf_path            => "/opt/puppetlabs/server/data/postgresql/${postgres_version}/data/pg_ident.conf",
-        ip_mask_allow_all_users_ssl   => '0.0.0.0/0',
-        ipv6_mask_allow_all_users_ssl => '::/0',
+        puppet_enterprise::pg::cert_allowlist_entry { "allow-rsan-access for ${db}":
+          user                          => 'rsan',
+          database                      => $db,
+          allowed_client_certname       => $_rsan_host,
+          pg_ident_conf_path            => "/opt/puppetlabs/server/data/postgresql/${postgres_version}/data/pg_ident.conf",
+          ip_mask_allow_all_users_ssl   => '0.0.0.0/0',
+          ipv6_mask_allow_all_users_ssl => '::/0',
+        }
       }
     }
   }
