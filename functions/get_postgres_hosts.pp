@@ -8,8 +8,9 @@ function rsan::get_postgres_hosts() {
                       expired is null
                     }
                   }').map |$data| { $data['certname'] }
-  }
 
   pe_sort($postgres_hosts)
+
+}
 
 
