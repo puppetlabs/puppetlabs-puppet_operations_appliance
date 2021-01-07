@@ -79,7 +79,6 @@ class rsan::exporter(
           db        => $db,
           role      => 'rsan',
         }
-      }
 
       pe_postgresql::server::table_grant { "SELECT to rsan for all tables on ${db}":
           privilege => 'SELECT',
