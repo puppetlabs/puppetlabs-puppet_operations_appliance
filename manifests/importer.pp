@@ -2,11 +2,7 @@
 # when applied to a node, all tooling agttributed to RSAN will be set up
 # @example
 #   include rsan::importer
-class rsan::importer { (
-  Array $puppet_servers
-  Array $puppetdb_hosts
-  Array $postgres_hosts
-)
+class rsan::importer {
 
   ##################### 1.Import logging from the exporter groups #####################
   # depending on the method, could be import exported respore with rsan tag
@@ -29,10 +25,8 @@ class rsan::importer { (
   #conditions of whether postgres is present or not
 
   #in the below class 
-    if $puppet_servers == undef {
-      $puppet_servers = rsan::get_puppet_servers()
-    }
 
+    $puppet_servers = rsan::get_puppet_servers()
     $puppetdb_hosts = rsan::get_puppetdb_hosts()
     $postgres_hosts = rsan::get_postgres_hosts()
 
