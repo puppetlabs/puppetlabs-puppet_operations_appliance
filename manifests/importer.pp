@@ -10,12 +10,12 @@ class rsan::importer {
   # depending on the method, could be import exported respore with rsan tag
   #####################################################################################
 
-  class { 'nfs':
-      server_enabled => true,
+  node client {
+    class { '::nfs':
+      client_enabled => true,
     }
-
-
-  NFS::Client::Mount <<||>>
+    Nfs::Client::Mount <<| |>>
+  }
 
 
   #################### 2. Deploy Client tools, and deploy PSL client #################
