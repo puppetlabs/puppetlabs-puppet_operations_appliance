@@ -4,16 +4,39 @@
 # 
 # @example
 #   include rsan::exporter
-class rsan::exporter(
+
+class rsan::exporter (
   $rsan_host = undef
-) {
+  String $rsanip = rsan::get_rsan_ip()
 
+){
 
+########################1.  Export Logging Function######################
+# Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
+#########################################################################
 
-  ########################1.  Export Logging Function######################
-  # Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
-  #########################################################################
+  class { '::nfs':
+    server_enabled => true
+  }
 
+  nfs::server::export{ '/var/log/':
+    ensure  => 'mounted',
+    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    mount   => "/var/pesupport/${facts['fqdn']}/log",
+  #  nfstag  => rsan,
+  }
+  nfs::server::export{ '/opt/puppetlabs/':
+    ensure  => 'mounted',
+    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    mount   => "/var/pesupport/${facts['fqdn']}/opt",
+  #  nfstag  => rsan,
+  }
+  nfs::server::export{ '/etc/puppetlabs/':
+    ensure  => 'mounted',
+    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    mount   => "/var/pesupport/${facts['fqdn']}/etc",
+  #  nfstag  => rsan,
+  }
 
 
 
