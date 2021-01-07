@@ -14,18 +14,18 @@ class { '::nfs':
   }
   nfs::server::export{ '/var/log/':
     ensure  => 'mounted',
-  clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
-  mount   => "/var/pesupport/${facts['fqdn']}/log",
+    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    mount   => "/var/pesupport/${facts['fqdn']}/log",
   }
   nfs::server::export{ '/opt/puppetlabs/':
-  ensure  => 'mounted',
-  clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
-  mount   => "/var/pesupport/${facts['fqdn']}/opt",
+    ensure  => 'mounted',
+    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    mount   => "/var/pesupport/${facts['fqdn']}/opt",
   }
   nfs::server::export{ '/etc/puppetlabs/':
-  ensure  => 'mounted',
-  clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
-  mount   => "/var/pesupport/${facts['fqdn']}/etc",
+    ensure  => 'mounted',
+    clients => "${rsanip}(ro,insecure,async,no_root_squash) localhost(ro)",
+    mount   => "/var/pesupport/${facts['fqdn']}/etc",
   }
 
 
