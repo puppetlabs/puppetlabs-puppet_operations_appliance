@@ -74,8 +74,16 @@ class rsan::exporter(
 
       $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator', 'pe-postgres']
       $dbs.each |$db|{
-        pe_postgresql::server::database_grant { "SELECT to rsan for ${db}":
+        pe_postgresql::server::database_grant { "CONNECT to rsan for ${db}":
+          privilege => 'CONNECT',
+          db        => $db,
+          role      => 'rsan',
+        }
+      }
+
+      pe_postgresql::server::table_grant { "SELECT to rsan for all tables on ${db}":
           privilege => 'SELECT',
+          table     => '*',
           db        => $db,
           role      => 'rsan',
         }
