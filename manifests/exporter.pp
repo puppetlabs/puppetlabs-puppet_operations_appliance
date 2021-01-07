@@ -78,6 +78,7 @@ class rsan::exporter(
           privilege => 'CONNECT',
           db        => $db,
           role      => 'rsan',
+          require   => Pe_postgresql::Server::Role['rsan']
         }
 
         $grant_cmd = "GRANT SELECT ON ALL TABLES IN SCHEMA \"public\" TO rsan"
@@ -89,7 +90,10 @@ class rsan::exporter(
           psql_group => $pe_postgresql::server::group,
           psql_path  => $pe_postgresql::server::psql_path,
           unless     => "SELECT grantee, privilege_type FROM information_schema.role_table_grants WHERE privilege_type = 'SELECT' AND grantee = 'rsan'",
-          require    => Class['pe_postgresql::server']
+          require    => [
+            Class['pe_postgresql::server'],
+            Pe_postgresql::Server::Role['rsan']
+          ]
         }
 
 
