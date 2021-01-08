@@ -11,7 +11,7 @@
 #   include rsan::exporter
 
 class rsan::exporter (
-  Array $rsan_importer_ips = rsan::rsan_importer_ips(),
+  Array $rsan_importer_ips = rsan::get_rsan_importer_ips(),
   Optional[String] $rsan_host = undef,
 ){
 
@@ -54,7 +54,6 @@ class rsan::exporter (
   }
 
 
-
   ######################2. Metrics Dash Board deployment ###############
   # Assuming use of puppet metrics dashboard for telemetry all nodes need
   # include puppet_metrics_dashboard::profile::master::install
@@ -62,25 +61,14 @@ class rsan::exporter (
 
   include puppet_metrics_dashboard::profile::master::install
 
-
-  #####################3. Metrics Dashboard postgres access ############
-  # Determine if node is pe_postgres host and conditionally apply include puppet_metrics_dashboard::profile::master::postgres_access
-  ######################################################################
-
-  #The following code serves to check that postgres is present and then declares the class
-
-  if $facts['pe_postgresql_info'] != undef {
-    include puppet_metrics_dashboard::profile::master::postgres_access
-  }
-
-
-
   #####################3. RSANpostgres command access ######################
   # Determine if node is pe_postgres host and conditionally apply Select Access for the RSAN node cert to all PE databases
-  # Hint metrics dashboard postgres access code can be duplicated and repurposed
+  # and conditionally apply include puppet_metrics_dashboard::profile::master::postgres_access
   ######################################################################
 
-  if $facts['pe_postgresql_info'] != undef {
+  if $facts['pe_postgresql_info'] != undef and $facts['pe_postgresql_info']['installed_server_version'] != '' {
+
+    include puppet_metrics_dashboard::profile::master::postgres_access
 
     if $rsan_host {
       $_rsan_host = $rsan_host
