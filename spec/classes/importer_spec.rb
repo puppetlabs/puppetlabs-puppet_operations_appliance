@@ -4,10 +4,10 @@ require 'spec_helper'
 
 describe 'rsan::importer' do
   before :each do
-    Puppet::Parser::Functions.newfunction(:puppetdb_query, :type => :rvalue, :arity => 1) do |args|
+    Puppet::Parser::Functions.newfunction(:puppetdb_query, type: :rvalue, arity: 1) do |_args|
       []
     end
-    Puppet::Parser::Functions.newfunction(:pe_sort, :type => :rvalue, :arity => 1) do |args|
+    Puppet::Parser::Functions.newfunction(:pe_sort, type: :rvalue, arity: 1) do |_args|
       []
     end
   end
