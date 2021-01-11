@@ -1,0 +1,4 @@
+---
+"puppet_enterprise::puppet_master_host": master.rspec
+"puppet_enterprise::manage_symlinks": false
+"puppet_enterprise::repo::config::platform_tag": el-7-x86_64

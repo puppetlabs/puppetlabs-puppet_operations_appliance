@@ -1,0 +1,4 @@
+  Gemfile:
+    required:
+      ':development':
+        - gem: 'toml-rb'
