@@ -12,7 +12,7 @@ class rsan::remove_exporter {
   class { '::nfs':
     server_enabled => false
   }
-  
+
   $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator']
   $dbs.each |$db|{
 
@@ -30,6 +30,16 @@ class rsan::remove_exporter {
       }
 
 
+      $droprole_cmd = 'DROP ROLE rsan'
+        pe_postgresql_psql { "${droprole_cmd}  ":
+          command    => $droprole_cmd,
+          db         => pe-puppetdb,
+          port       => $pe_postgresql::server::port,
+          psql_user  => $pe_postgresql::server::user,
+          psql_group => $pe_postgresql::server::group,
+          psql_path  => $pe_postgresql::server::psql_path,
+          require    => Pe_postgresql_psql["${dropowned_cmd} on pe-puppetdb"],
+        }
 
 
 }
