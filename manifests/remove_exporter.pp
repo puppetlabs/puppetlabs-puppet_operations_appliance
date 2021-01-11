@@ -12,12 +12,11 @@ class rsan::remove_exporter {
   class { '::nfs':
     server_enabled => false
   }
-
- $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator']
+  
+  $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator']
   $dbs.each |$db|{
 
-
-   $dropowned_cmd = 'DROP OWNED BY rsan'
+  $dropowned_cmd = 'DROP OWNED BY rsan'
         pe_postgresql_psql { "${dropowned_cmd} on ${db}":
           command    => $dropowned_cmd,
           db         => $db,
