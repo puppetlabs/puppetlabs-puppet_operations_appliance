@@ -13,8 +13,4 @@ fixtures:
     yumrepo: "puppetlabs/yumrepo_core"
     grafana: "puppet/grafana"
     telegraf: "puppet/telegraf"
-  repositories:
-    puppet-enterprise-modules: 'git@github.com:puppetlabs/puppet-enterprise-modules.git'
-  symlinks:
-    puppet_enterprise: "#{source_dir}/spec/fixtures/modules/puppet-enterprise-modules/modules/puppet_enterprise"
-    pe_hocon: "#{source_dir}/spec/fixtures/modules/puppet-enterprise-modules/modules/pe_hocon"
+    puppetserver_gem: "puppetlabs/puppetserver_gem"
