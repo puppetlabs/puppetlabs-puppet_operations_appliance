@@ -24,11 +24,19 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
- 
+
       - name: action-pdk-validate
   # You may pin to the exact commit or the version.
   # uses: puppets-epic-show-theatre/action-pdk-validate@31b5407676af16b690b2b8c54c0767af72fcc34f
         uses: puppets-epic-show-theatre/action-pdk-validate@v1.0.0
+        with:
+    # A string indicating the Puppet version to validate against, such as "5.4.2" or "5.5".
+          puppet-version: # optional
+    # A string indicating the PE version to validate against, such as "2017.3.5" or "2018.1".
+          pe-version: # optional
+
+      - name: action-pdk-test-unit
+        uses: puppets-epic-show-theatre/action-pdk-test-unit@v1
         with:
     # A string indicating the Puppet version to validate against, such as "5.4.2" or "5.5".
           puppet-version: # optional
