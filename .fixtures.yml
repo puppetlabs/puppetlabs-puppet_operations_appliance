@@ -4,3 +4,17 @@
 fixtures:
   forge_modules:
     stdlib: "puppetlabs/stdlib"
+    concat: "puppetlabs/concat"
+    postgresql: "puppetlabs/postgresql"
+    puppetdb: "puppetlabs/puppetdb"
+    puppet_metrics_dashboard: "puppetlabs/puppet_metrics_dashboard"
+    puppet_metrics_collector: "puppetlabs/puppet_metrics_collector"
+    nfs: "derdanne/nfs"
+    yumrepo: "puppetlabs/yumrepo_core"
+    grafana: "puppet/grafana"
+    telegraf: "puppet/telegraf"
+  repositories:
+    puppet-enterprise-modules: 'git@github.com:puppetlabs/puppet-enterprise-modules.git'
+  symlinks:
+    puppet_enterprise: "#{source_dir}/spec/fixtures/modules/puppet-enterprise-modules/modules/puppet_enterprise"
+    pe_hocon: "#{source_dir}/spec/fixtures/modules/puppet-enterprise-modules/modules/pe_hocon"
