@@ -23,16 +23,16 @@ class rsan::remove_exporter {
 
       $dropowned_cmd = 'DROP OWNED BY rsan'
       pe_postgresql_psql { "${dropowned_cmd} on ${db}":
-      command    => $dropowned_cmd,
-      db         => $db,
-      port       => $pe_postgresql::server::port,
-      psql_user  => $pe_postgresql::server::user,
-      psql_group => $pe_postgresql::server::group,
-      psql_path  => $pe_postgresql::server::psql_path,
-      require    => [Class['pe_postgresql::server']]
-    }
+        command    => $dropowned_cmd,
+        db         => $db,
+        port       => $pe_postgresql::server::port,
+        psql_user  => $pe_postgresql::server::user,
+        psql_group => $pe_postgresql::server::group,
+        psql_path  => $pe_postgresql::server::psql_path,
+        require    => [Class['pe_postgresql::server']]
+      }
 
-  }
+    }
 
     $droprole_cmd = 'DROP ROLE rsan'
     pe_postgresql_psql { "${droprole_cmd}  ":
