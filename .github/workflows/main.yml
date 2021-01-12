@@ -24,7 +24,7 @@ jobs:
         include:
           - puppet_ver: '~> 6'
             ruby_ver: 2.5
-          - puppet_ver: '7'
+          - puppet_ver: '~> 7'
             ruby_ver: 2.7
     steps:
       - name: Checkout Source
@@ -32,20 +32,11 @@ jobs:
 
       - name: Activate Ruby ${{ matrix.ruby_ver }}
         uses: ruby/setup-ruby@v1
+        env:
+          PUPPET_GEM_VERSION: ${{ matrix.puppet_ver }}
         with:
           ruby-version: ${{ matrix.ruby_ver }}
           bundler-cache: true
-
-      - name: Install gems
-        env:
-          PUPPET_GEM_VERSION: ${{ matrix.puppet_ver }}
-        run: |
-          gem install bundler
-          bundle config path vendor/gems
-          bundle config jobs 8
-          bundle config retry 3
-          bundle install
-          bundle clean
 
       - name: Print Bundler Environment
         env:
