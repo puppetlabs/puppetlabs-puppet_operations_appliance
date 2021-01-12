@@ -42,7 +42,7 @@ class rsan::remove_exporter {
           psql_user  => $pe_postgresql::server::user,
           psql_group => $pe_postgresql::server::group,
           psql_path  => $pe_postgresql::server::psql_path,
-          require    => Pe_postgresql_psql["${dropowned_cmd} on pe-puppetdb"],
+          require    => Pe_postgresql_psql["DROP OWNED BY rsan on pe-puppetdb"],
         }
 
   }
