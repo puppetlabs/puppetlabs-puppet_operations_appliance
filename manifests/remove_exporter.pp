@@ -13,6 +13,10 @@ class rsan::remove_exporter {
     server_enabled => false
   }
 
+
+  if $facts['pe_postgresql_info'] != undef and $facts['pe_postgresql_info']['installed_server_version'] != '' {
+
+
   $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator']
   $dbs.each |$db|{
 
@@ -41,5 +45,5 @@ class rsan::remove_exporter {
           require    => Pe_postgresql_psql["${dropowned_cmd} on pe-puppetdb"],
         }
 
-
+  }
 }
