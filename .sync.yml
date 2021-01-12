@@ -1,4 +1,10 @@
-  Gemfile:
-    required:
-      ':development':
-        - gem: 'toml-rb'
+Gemfile:
+  required:
+    ':development':
+      - gem: 'toml-rb'
+spec/default_facts.yml:
+  extra_facts:
+    pe_server_version: 2019.8.4
+    pe_build: 2019.8.4
+spec/spec_helper.rb:
+  hiera_config_ruby: File.expand_path(File.join(__dir__, 'fixtures/hiera.yaml'))
