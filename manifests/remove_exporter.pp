@@ -9,8 +9,16 @@ class rsan::remove_exporter {
 
 #Disable NFS Server
 
-  class { '::nfs':
-    server_enabled => false
+# class { '::nfs':
+  #   server_enabled => false
+  #}
+
+  file { '/etc/exports':
+    ensure => absent,
+  }
+
+  service {'nfs':
+    ensure => stopped,
   }
 
 
@@ -42,7 +50,7 @@ class rsan::remove_exporter {
           psql_user  => $pe_postgresql::server::user,
           psql_group => $pe_postgresql::server::group,
           psql_path  => $pe_postgresql::server::psql_path,
-          require    => Pe_postgresql_psql["DROP OWNED BY rsan on pe-puppetdb"],
+          require    => Pe_postgresql_psql['DROP OWNED BY rsan on pe-puppetdb'],
         }
 
   }
