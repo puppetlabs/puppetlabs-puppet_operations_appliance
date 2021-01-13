@@ -30,43 +30,71 @@ Software required for the proper functioning of the RSAN will be deployed on the
 
 
 ### Setup Requirements 
-Dependencies
 
-derdanne/nfs (>= 2.1.5)
-puppetlabs/postgresql (>= 6.6.0)
-puppetlabs/puppet_metrics_dashboard (>= 2.3.0)
-puppetlabs/stdlib (>= 4.5.0 < 7.0.0)
-puppetlabs/concat (>= 1.1.2 < 7.0.0)
-puppetlabs/transition (>= 0.1.0 < 1.0.0)
-herculesteam/augeasproviders_core (>= 2.1.5 < 4.0.0)
-herculesteam/augeasproviders_shellvar (>= 1.2.0 < 5.0.0)
-puppetlabs/apt (>= 2.0.0 < 8.0.0)
-puppet-grafana (>= 3.0.0 < 7.0.0)
-puppet-telegraf (>= 2.0.0 < 4.0.0)
-puppetlabs-apt (>= 4.3.0 < 8.0.0)
-puppetlabs-inifile (>= 2.0.0 < 5.0.0)
-puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
-puppet/openvpn (>= 8.3.0)
+Module Dependencies
 
-
+ - derdanne/nfs (>= 2.1.5)
+ - puppetlabs/postgresql (>= 6.6.0)
+ - puppetlabs/puppet_metrics_dashboard (>= 2.3.0)
+ - puppetlabs/stdlib (>= 4.5.0 < 7.0.0)
+- puppetlabs/concat (>= 1.1.2 < 7.0.0)
+- puppetlabs/transition (>= 0.1.0 < 1.0.0)
+- herculesteam/augeasproviders_core (>= 2.1.5 < 4.0.0)
+- herculesteam/augeasproviders_shellvar (>= 1.2.0 < 5.0.0)
+- puppetlabs/apt (>= 2.0.0 < 8.0.0)
+- puppet-grafana (>= 3.0.0 < 7.0.0)
+- puppet-telegraf (>= 2.0.0 < 4.0.0)
+- puppetlabs-apt (>= 4.3.0 < 8.0.0)
+- puppetlabs-inifile (>= 2.0.0 < 5.0.0)
+- puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
 
 
 ### Beginning with rsan
 
-RSAN has Two Classes:
+RSAN has two main classes for use in the installation:
 
  - rsan::exporter - to be applied to all Puppet infrastructure agents - Console node group "PE Infrastructure Agent"
- - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node
+ - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node(RSAN)
 
-Adding these two classes will set up all applications and configurations to run  RSAN
+Following the application of these clases to the infrastructure Puppet Will need to be run on the corresponding agents in the following order:
+
+Infrastructure Agent(s)->RSAN Agent->Infrastrcture Agent(s)->RSAN Agent
 
 ## Usage
+The following outlines the main features of RSAN and how to consume them
+### Live Telemetry Display
 
-TBC - detailed description of feature switches and configurable parameters
+The Rsan node will host an instance of the [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
+ 
+The Dashboard can be accessed on
+
+<RSAN-ip\>:3000\
+User: admin\
+Password: admin
+
+For advanced configuration and documentation please see [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
+
+### Infrastructure node file and log access	
+
+The RSAN node will, by default, mount /var/log/ /opt/puppetlabs and /etc/puppetlabs from each of the Puppet Enterprise Infrastructure nodes on the RSAN platform in the following location, as read only file systems.
+
+/var/pesupport/<FQDN of Infrastructure node\>/var/log\
+/var/pesupport/<FQDN of Infrastructure node\>/opt/puppetlabs\
+/var/pesupport/<FQDN of Infrastructure node\>/etc/puppetlabs
+
+
+
+### PE Client tools
+
+The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise 
+
+
+### Puppet Enterprise Database Access	
+
+## Uninstallation 
 
 ## Limitations
-
-
+ - The RSAN importer class should only be applied one agent node
 
 ## Contributions
 
