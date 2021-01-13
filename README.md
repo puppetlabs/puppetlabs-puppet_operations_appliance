@@ -30,43 +30,114 @@ Software required for the proper functioning of the RSAN will be deployed on the
 
 
 ### Setup Requirements 
-Dependencies
 
-derdanne/nfs (>= 2.1.5)
-puppetlabs/postgresql (>= 6.6.0)
-puppetlabs/puppet_metrics_dashboard (>= 2.3.0)
-puppetlabs/stdlib (>= 4.5.0 < 7.0.0)
-puppetlabs/concat (>= 1.1.2 < 7.0.0)
-puppetlabs/transition (>= 0.1.0 < 1.0.0)
-herculesteam/augeasproviders_core (>= 2.1.5 < 4.0.0)
-herculesteam/augeasproviders_shellvar (>= 1.2.0 < 5.0.0)
-puppetlabs/apt (>= 2.0.0 < 8.0.0)
-puppet-grafana (>= 3.0.0 < 7.0.0)
-puppet-telegraf (>= 2.0.0 < 4.0.0)
-puppetlabs-apt (>= 4.3.0 < 8.0.0)
-puppetlabs-inifile (>= 2.0.0 < 5.0.0)
-puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
-puppet/openvpn (>= 8.3.0)
+Module Dependencies
 
-
+ - derdanne/nfs (>= 2.1.5)
+ - puppetlabs/postgresql (>= 6.6.0)
+ - puppetlabs/puppet_metrics_dashboard (>= 2.3.0)
+ - puppetlabs/stdlib (>= 4.5.0 < 7.0.0)
+- puppetlabs/concat (>= 1.1.2 < 7.0.0)
+- puppetlabs/transition (>= 0.1.0 < 1.0.0)
+- herculesteam/augeasproviders_core (>= 2.1.5 < 4.0.0)
+- herculesteam/augeasproviders_shellvar (>= 1.2.0 < 5.0.0)
+- puppetlabs/apt (>= 2.0.0 < 8.0.0)
+- puppet-grafana (>= 3.0.0 < 7.0.0)
+- puppet-telegraf (>= 2.0.0 < 4.0.0)
+- puppetlabs-apt (>= 4.3.0 < 8.0.0)
+- puppetlabs-inifile (>= 2.0.0 < 5.0.0)
+- puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
 
 
 ### Beginning with rsan
 
-RSAN has Two Classes:
+RSAN has two main classes for use in the installation:
 
  - rsan::exporter - to be applied to all Puppet infrastructure agents - Console node group "PE Infrastructure Agent"
- - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node
+ - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node(RSAN)
 
-Adding these two classes will set up all applications and configurations to run  RSAN
+Following the application of these clases to the infrastructure Puppet Will need to be run on the corresponding agents in the following order:
+
+Infrastructure Agent(s)->RSAN Agent->Infrastrcture Agent(s)->RSAN Agent
 
 ## Usage
+The following outlines the main features of RSAN and how to consume them
+### Live Telemetry Display
 
-TBC - detailed description of feature switches and configurable parameters
+The Rsan node will host an instance of the [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
+ 
+The Dashboard can be accessed on
+
+<RSAN-ip\>:3000\
+User: admin\
+Password: admin
+
+For advanced configuration and documentation please see [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
+
+### Infrastructure node file and log access	
+
+The RSAN node will, by default, mount /var/log/ /opt/puppetlabs and /etc/puppetlabs from each of the Puppet Enterprise Infrastructure nodes on the RSAN platform in the following location, as read only file systems.
+
+/var/pesupport/<FQDN of Infrastructure node\>/var/log\
+/var/pesupport/<FQDN of Infrastructure node\>/opt/puppetlabs\
+/var/pesupport/<FQDN of Infrastructure node\>/etc/puppetlabs
+
+#### Optional Configuration
+
+The RSAN Class assumes the RSAN server will mount the shared partitions using the IP address Source designated by the "ipaddress" fact. In any deployment should this assertion not be true, it is nessary to set the following parameter to the source IP address of the RSAN Host:
+
+**rsan::exporter::rsan_importer_ips**
+
+### PE Client tools
+
+The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise on the RSAN platform, For More information please see the Puppet Enterprise Documentation:
+
+[PE Client tools](https://puppet.com/docs/pe/2019.8/installing_pe_client_tools.html)
+
+A supplementary task is available to generate an RBAC user and role, so that the credentials may be used provided to Puppet Enterprise Support personnel.
+
+#### Creating Support User
+
+Run the following task against the Primary Puppet Enterprise Server\
+For imformation on executing PE tasks see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/tasks_in_pe.html)\
+RSAN::supportuser\
+When successful the task will return a password, this should be delivered to Puppet Enterprise Support personnel.
+
+The Task creates the following user and role:
+
+**User:** pesupport 
+
+**Role:** PE Suport Role 
+
+The role is intentonally left without permissions, and should be given only the permissions the installing organisation are authorised to grant to Puppet Enterprise Support personnel. For more information on RBAC permissions please see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/rbac_permissions_intro.html)
+
+### Puppet Enterprise Database Access	
+
+The RSAN Platform has a Postgresql client installed, and is granted certificate based access to all Puppet Enterprise Databases on any pe_postgresl node within the current deployment. The access is limited to the [SELECT](https://www.postgresql.org/docs/11/sql-grant.html) privilege and is therefore READONLY in nature.
+
+To use this function execute the following command from the CLI of the RSAN host
+
+```
+psql "sslmode=verify-ca sslrootcert=/etc/puppetlabs/puppet/ssl/certs/ca.pem  sslcert=/etc/puppetlabs/puppet/ssl/certs/<fqdn_rsan_host>.pem sslkey=/etc/puppetlabs/puppet/ssl/private_keys/<fqdn_rsan_host>.pem hostaddr=<pe_postgres_host> port=5432 user=rsan dbname=<pe_db_name>"
+```
+
+Where valid options for <pe_db_name> are:
+
+- pe-rbac 
+- pe-puppetdb 
+- pe-orchestrator 
+- pe-inventory 
+- pe-classifier 
+- pe-activity
+
+## Uninstallation 
 
 ## Limitations
+ - The RSAN importer class should only be applied one agent node
 
+## Known Issues
 
+- When accessing 
 
 ## Contributions
 
