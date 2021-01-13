@@ -29,6 +29,7 @@ group :development do
   gem "puppet-module-win-default-r#{minor_version}", '~> 0.4',   require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem "puppet-module-win-dev-r#{minor_version}", '~> 0.4',       require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem "toml-rb",                                                 require: false
+  gem "rspec-puppet-facts", '>= 2.0.1',                          require: false
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']
