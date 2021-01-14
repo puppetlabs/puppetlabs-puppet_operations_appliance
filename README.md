@@ -56,7 +56,7 @@ RSAN has two main classes for use in the installation:
  - rsan::exporter - to be applied to all Puppet infrastructure agents - Console node group "PE Infrastructure Agent"
  - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node(RSAN)
 
-Following the application of these clases to the infrastructure Puppet Will need to be run on the corresponding agents in the following order:
+Following the application of these clases to the infrastructure, Puppet Will need to be run on the corresponding agents in the following order:
 
 Infrastructure Agent(s)->RSAN Agent->Infrastrcture Agent(s)->RSAN Agent
 
@@ -97,20 +97,20 @@ The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise on th
 
 A supplementary task is available to generate an RBAC user and role, so that the credentials may be used provided to Puppet Enterprise Support personnel.
 
-#### Creating Support User
+>>#### Creating Support User
 
-Run the following task against the Primary Puppet Enterprise Server\
+>>>Run the following task against the Primary Puppet Enterprise Server\
 For imformation on executing PE tasks see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/tasks_in_pe.html)\
 RSAN::supportuser\
 When successful the task will return a password, this should be delivered to Puppet Enterprise Support personnel.
 
-The Task creates the following user and role:
+>>>The Task creates the following user and role:
 
-**User:** pesupport 
+>>>>**User:** pesupport 
 
-**Role:** PE Suport Role 
+>>>>**Role:** PE Suport Role 
 
-The role is intentonally left without permissions, and should be given only the permissions the installing organisation are authorised to grant to Puppet Enterprise Support personnel. For more information on RBAC permissions please see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/rbac_permissions_intro.html)
+>>>The role is intentonally left without permissions, and should be given only the permissions the installing organisation are authorised to grant to Puppet Enterprise Support personnel. For more information on RBAC permissions please see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/rbac_permissions_intro.html)
 
 ### Puppet Enterprise Database Access	
 
@@ -133,24 +133,42 @@ Where valid options for <pe_db_name> are:
 
 ## Uninstallation 
 
+To Uninsuall RSAN from your Puppet Enterprise Infrastructure.
+
+ - Remove the following Classification:
+>>>rsan::exporter\
+>>>rsan::importer
+
+ - Add the following classification to the "PE Infrastructure Agent" node group
+ >>> rsan::remove_exporter
+
+  - Remove the following classification to the "PE Infrastructure Agent" node group
+ >>> rsan::remove_exporter
+
+  - Run Puppet on all nodes in "PE Infrastructure Agent" node group
+
+   - Decommission the RSAN platform 
+
+
 ## Limitations
  - The RSAN importer class should only be applied one agent node
+ - All features are currently 
 
 ## Known Issues
 
-- When accessing 
+- When accessing the database from the RSAN node for the first time, an error message will be presented: [#40](https://github.com/MartyEwings/RSAN/issues/40)
 
-### PE Client tools
+>>>```psql: private key file "/etc/puppetlabs/puppet/ssl/private_keys/rsan-target.platform9.puppet.net.pem" has group or world access; permissions should be u=rw (0600) or less```
 
-The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise 
+ >>> To workaround change the private key file to 0600 or less, Puppet will manage this file back to incorrect permissions, for long term access making a copy of the key with the correct permissions is the best course of action. 
 
+ - PuppetDB Metric Collection fails due to CVE-2020-7943  [27](https://github.com/MartyEwings/RSAN/issues/27)
 
-### Puppet Enterprise Database Access	
+>>>Please refer to the documenation of Puppet Metrics collector for recommended work arounds
 
-## Uninstallation 
-
-## Limitations
- - The RSAN importer class should only be applied one agent node
+ - RSAN NFS volumes are mounted RW, but exported RO  [26](https://github.com/MartyEwings/RSAN/issues/26)
+ 
+ >>>There is no impact to the end user 
 
 ## Contributions
 
