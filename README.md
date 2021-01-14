@@ -63,6 +63,7 @@ Infrastructure Agent(s)->RSAN Agent->Infrastrcture Agent(s)->RSAN Agent
 ## Usage
 The following outlines the main features of RSAN and how to consume them
 ### Live Telemetry Display
+<<<<<<< HEAD
 
 The Rsan node will host an instance of the [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
  
@@ -138,6 +139,18 @@ Where valid options for <pe_db_name> are:
 ## Known Issues
 
 - When accessing 
+
+### PE Client tools
+
+The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise 
+
+
+### Puppet Enterprise Database Access	
+
+## Uninstallation 
+
+## Limitations
+ - The RSAN importer class should only be applied one agent node
 
 ## Contributions
 
