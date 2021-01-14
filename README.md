@@ -69,7 +69,7 @@ The Rsan node will host an instance of the [Puppet Metrics Dashboard](https://fo
  
 The Dashboard can be accessed on
 
-<RSAN-ip\>:3000\
+http://<RSAN-ip\>:3000\
 User: admin\
 Password: admin
 
@@ -119,7 +119,7 @@ The RSAN Platform has a Postgresql client installed, and is granted certificate 
 To use this function execute the following command from the CLI of the RSAN host
 
 ```
-psql "sslmode=verify-ca sslrootcert=/etc/puppetlabs/puppet/ssl/certs/ca.pem  sslcert=/etc/puppetlabs/puppet/ssl/certs/<fqdn_rsan_host>.pem sslkey=/etc/puppetlabs/puppet/ssl/private_keys/<fqdn_rsan_host>.pem hostaddr=<pe_postgres_host> port=5432 user=rsan dbname=<pe_db_name>"
+psql "host=$(puppet config print server) port=5432 user=rsan sslmode=verify-full sslcert=$(puppet config print hostcert) sslkey=$(puppet config print hostprivkey) sslrootcert=$(puppet config print localcacert) dbname=<pe_db_name>"
 ```
 
 Where valid options for <pe_db_name> are:
