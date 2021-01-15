@@ -88,7 +88,7 @@ For advanced configuration and documentation please see [Puppet Metrics Dashboar
 The RSAN node will, by default, mount `/var/log/`, `/opt/puppetlabs` and `/etc/puppetlabs` from each of the Puppet Enterprise Infrastructure nodes on the RSAN platform in the following location, as read-only file systems.
 
 `/var/pesupport/<FQDN of Infrastructure node\>/var/log\`
-/var/pesupport/<FQDN of Infrastructure node\>/opt/puppetlabs\
+`/var/pesupport/<FQDN of Infrastructure node\>/opt/puppetlabs\`
 `/var/pesupport/<FQDN of Infrastructure node\>/etc/puppetlabs`
 
 #### Optional Configuration
