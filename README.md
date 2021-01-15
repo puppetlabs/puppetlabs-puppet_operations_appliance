@@ -121,7 +121,7 @@ A supplementary task is available to generate an RBAC user and role, so that the
 #### Creating Support User
 
 Run the following task against the Primary Puppet Enterprise Server\
-For imformation on executing PE tasks see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/tasks_in_pe.html)\
+For information on executing PE tasks see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/tasks_in_pe.html)\
 RSAN::supportuser\
 When successful the task will return a password, this should be delivered to Puppet Enterprise Support personnel.
 
