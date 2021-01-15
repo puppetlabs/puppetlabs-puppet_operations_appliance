@@ -164,7 +164,7 @@ rsan::importer
 
  - PuppetDB Metric Collection fails due to CVE-2020-7943  [27](https://github.com/MartyEwings/RSAN/issues/27)
 
-Please refer to the documenation of Puppet Metrics collector for recommended work arounds
+Please refer to the documentation of [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard) for recommended workarounds
 
  - RSAN NFS volumes are mounted RW, but exported RO  [26](https://github.com/MartyEwings/RSAN/issues/26)
  
