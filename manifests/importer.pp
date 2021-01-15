@@ -54,13 +54,6 @@ class rsan::importer {
   #######################################################################################
 
 
-  ##################### 4. VPN client (openvpn) ########################################
-  # deploy openvpn client, set up connection with preshared key use licence key UUID as preshared key
-  # destination will need IT involvement, scope to make it possible with a dummy end point
-  # Task to enable and disable connection
-  ######################################################################################
-
-
 
 
 

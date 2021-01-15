@@ -1,7 +1,7 @@
 {
   "puppet_task_version": 1,
   "supports_noop": false,
-  "description": "A short description of this task",
+  "description": "Creates pesupport user and PE Support Role, generated password should be shared with Puppet Enterprise Support personnel",
   "parameters": {
   }
 }
