@@ -89,7 +89,7 @@ The RSAN node will, by default, mount `/var/log/`, `/opt/puppetlabs` and `/etc/p
 
 `/var/pesupport/<FQDN of Infrastructure node\>/var/log\`
 /var/pesupport/<FQDN of Infrastructure node\>/opt/puppetlabs\
-/var/pesupport/<FQDN of Infrastructure node\>/etc/puppetlabs
+`/var/pesupport/<FQDN of Infrastructure node\>/etc/puppetlabs`
 
 #### Optional Configuration
 
