@@ -77,7 +77,7 @@ The Rsan node will host an instance of the [Puppet Metrics Dashboard](https://fo
  
 The Dashboard can be accessed on
 
-http://<RSAN-ip\>:3000\
+**URL:** http://<RSAN-ip\>:3000\
 **User:** admin\
 **Password:** admin
 
