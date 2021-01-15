@@ -116,17 +116,19 @@ The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise on th
 
 [PE Client tools](https://puppet.com/docs/pe/2019.8/installing_pe_client_tools.html)
 
-A supplementary task is available to generate an RBAC user and role, so that the credentials may be used provided to Puppet Enterprise Support personnel.
-
-#### Creating Support User
-
+A supplementary task is available to generate an RBAC user and role, so that the credentials may be used provided to Puppet Enterprise Support personnel.  
+<br>
+#### Creating Support User  
+<br>
 Run the following task against the Primary Puppet Enterprise Server\
 For imformation on executing PE tasks see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/tasks_in_pe.html)\
 RSAN::supportuser\
 When successful the task will return a password, this should be delivered to Puppet Enterprise Support personnel.
-
+<br>
+<br>
 The Task creates the following user and role:
-
+<br>
+<br>
 **User:** pesupport 
 
 **Role:** PE Suport Role 
