@@ -56,7 +56,9 @@ Software required for the proper functioning of the RSAN will be deployed on the
 | --- | ----------- | --| --|
 | m1.medium | 2 CPU | 4GB Memory | 40GB Disk 
 
+#### OS Restrictions
 
+RSAN will support RHEL / Debian / Ubuntu however due to the additional of PE Client tools in the installation, you are restricted to installing it on a platform with the same OS as the Primary PE Server.
 
 ### Beginning with rsan
 
@@ -95,7 +97,18 @@ The RSAN node will, by default, mount `/var/log/`, `/opt/puppetlabs` and `/etc/p
 
 The RSAN Class assumes the RSAN server will mount the shared partitions using the IP address Source designated by the "ipaddress" fact. In any deployment should this assertion not be true, it is nessary to set the following parameter to the source IP address of the RSAN Host:
 
-**rsan::exporter::rsan_importer_ips**
+In Hiera 
+
+```
+rsan::exporter::rsan_importer_ips:
+  - 1.2.3.4
+  ```
+
+Console Class Declaration
+
+```
+["1.2.3.4"]
+```
 
 ### PE Client tools
 
@@ -160,7 +173,7 @@ rsan::importer
 
 ## Limitations
  - The RSAN importer class should only be applied one agent node
- - All features are currently 
+ - All features are currently enabled and can not be individually disabled, this will be addressed in future releases
 
 ## Known Issues
 
