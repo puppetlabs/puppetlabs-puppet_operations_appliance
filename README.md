@@ -79,7 +79,7 @@ The Dashboard can be accessed on
 
 http://<RSAN-ip\>:3000\
 User: admin\
-Password: admin
+**Password:** admin
 
 For advanced configuration and documentation please see [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
 
