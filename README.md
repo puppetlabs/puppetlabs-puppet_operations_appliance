@@ -31,12 +31,12 @@ Software required for the proper functioning of the RSAN will be deployed on the
 
 ### Setup Requirements 
 
-Module Dependencies
+#### Module Dependencies
 
- - derdanne/nfs (>= 2.1.5)
- - puppetlabs/postgresql (>= 6.6.0)
- - puppetlabs/puppet_metrics_dashboard (>= 2.3.0)
- - puppetlabs/stdlib (>= 4.5.0 < 7.0.0)
+- derdanne/nfs (>= 2.1.5)
+- puppetlabs/postgresql (>= 6.6.0)
+- puppetlabs/puppet_metrics_dashboard (>= 2.3.0)
+- puppetlabs/stdlib (>= 4.5.0 < 7.0.0)
 - puppetlabs/concat (>= 1.1.2 < 7.0.0)
 - puppetlabs/transition (>= 0.1.0 < 1.0.0)
 - herculesteam/augeasproviders_core (>= 2.1.5 < 4.0.0)
@@ -47,6 +47,15 @@ Module Dependencies
 - puppetlabs-apt (>= 4.3.0 < 8.0.0)
 - puppetlabs-inifile (>= 2.0.0 < 5.0.0)
 - puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
+
+
+#### Minimum Hardware requirements
+
+
+| AWS EC2|Cores| RAM |Disk|
+| --- | ----------- | --| --|
+| m1.medium | 2 CPU | 4GB Memory | 40GB Disk 
+
 
 
 ### Beginning with rsan
@@ -63,7 +72,6 @@ Infrastructure Agent(s)->RSAN Agent->Infrastrcture Agent(s)->RSAN Agent
 ## Usage
 The following outlines the main features of RSAN and how to consume them
 ### Live Telemetry Display
-<<<<<<< HEAD
 
 The Rsan node will host an instance of the [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
  
@@ -164,7 +172,7 @@ rsan::importer
 
  - PuppetDB Metric Collection fails due to CVE-2020-7943  [27](https://github.com/MartyEwings/RSAN/issues/27)
 
-Please refer to the documentation of [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard) for recommended workarounds
+Please refer to the documenation of Puppet Metrics collector for recommended work arounds
 
  - RSAN NFS volumes are mounted RW, but exported RO  [26](https://github.com/MartyEwings/RSAN/issues/26)
  
