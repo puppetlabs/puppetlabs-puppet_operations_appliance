@@ -1,4 +1,4 @@
-# rsan
+
 
 #### Table of Contents
 
@@ -17,15 +17,14 @@ The Remote Support Access Node (RSAN) will allow Puppet support engineers to con
 Customers currently must deliver large volumes of data to support and resolution time is hindered by transfer logistics and privacy concerns. This same data must then be processed by internal support engineers leading to artificially decreased capacity of the support team.
 
 The RSAN platform is designed to be a contained infrastructure endpoint in the customer Puppet Enterprise environment, collating data and access, useful in incident resolution for the target customer deployment.
-The node will allow for read-only access to Puppet Entperise Component Data and configiration, and limit other access through Puppet Enterprise’s built-in Role Based Access Control(RBAC).
-The Node has the functionality to make session-based outward connections towards the Puppet Support Network, controllable by the customer user in duration.
+The node will allow for read-only access to Puppet Enterprise Component Data and configuration, and limit other access through Puppet Enterprise’s built-in Role Based Access Control(RBAC).
 
 
 ## Setup
 
 ### What rsan affects 
 
-RSAN will Export NFS mounts of key directories from each infastruture node, while also setting up requirements for gathering of metrics and Database access for the RSAN node.
+RSAN will Export NFS mounts of key directories from each infrastructure node, while also setting up requirements for gathering of metrics and Database access for the RSAN node.
 Software required for the proper functioning of the RSAN will be deployed on the target agent node.
 
 
@@ -67,9 +66,9 @@ RSAN has two main classes for use in the installation:
  - rsan::exporter - to be applied to all Puppet infrastructure agents - Console node group "PE Infrastructure Agent"
  - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node(RSAN)
 
-Following the application of these clases to the infrastructure, Puppet Will need to be run on the corresponding agents in the following order:
+Following the application of these classes to the infrastructure, Puppet Will need to be run on the corresponding agents in the following order:
 
-Infrastructure Agent(s)->RSAN Agent->Infrastrcture Agent(s)->RSAN Agent
+Infrastructure Agent(s)->RSAN Agent->Infrastructure Agent(s)->RSAN Agent
 
 ## Usage
 The following outlines the main features of RSAN and how to consume them
@@ -95,7 +94,7 @@ The RSAN node will, by default, mount `/var/log/`, `/opt/puppetlabs` and `/etc/p
 
 #### Optional Configuration
 
-The RSAN Class assumes the RSAN server will mount the shared partitions using the IP address Source designated by the "ipaddress" fact. In any deployment should this assertion not be true, it is nessary to set the following parameter to the source IP address of the RSAN Host:
+The RSAN Class assumes the RSAN server will mount the shared partitions using the IP address Source designated by the "ipaddress" fact. In any deployment should this assertion not be true, it is necessary to set the following parameter to the source IP address of the RSAN Host:
 
 In Hiera 
 
@@ -133,7 +132,7 @@ The Task creates the following user and role:
 
 **Role:** PE Suport Role 
 
-The role is intentonally left without permissions, and should be given only the permissions the installing organisation are authorised to grant to Puppet Enterprise Support personnel. For more information on RBAC permissions please see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/rbac_permissions_intro.html)
+The role is intentionally left without permissions, and should be given only the permissions the installing organisation are authorised to grant to Puppet Enterprise Support personnel. For more information on RBAC permissions please see the [Puppet Enterprise Documentation](https://puppet.com/docs/pe/2019.8/rbac_permissions_intro.html)
 
 ### Puppet Enterprise Database Access	
 
@@ -156,7 +155,7 @@ Where valid options for <pe_db_name> are:
 
 ## Uninstallation 
 
-To Uninsuall RSAN from your Puppet Enterprise Infrastructure.
+To Uninstall RSAN from your Puppet Enterprise Infrastructure.
 
  - Remove the following Classification:
 rsan::exporter\
@@ -176,20 +175,21 @@ rsan::importer
 ## Limitations
  - The RSAN importer class should only be applied one agent node
  - All features are currently enabled and can not be individually disabled, this will be addressed in future releases
+ - The current version does not have any built in remote access capability
 
 ## Known Issues
 
-- When accessing the database from the RSAN node for the first time, an error message will be presented: [#40](https://github.com/MartyEwings/RSAN/issues/40)
+- When accessing the database from the RSAN node for the first time, an error message will be presented: [#40](https://github.com/puppetlabs/RSAN/issues/40)
 
 ```psql: private key file "/etc/puppetlabs/puppet/ssl/private_keys/rsan-target.platform9.puppet.net.pem" has group or world access; permissions should be u=rw (0600) or less```
 
  To workaround change the private key file to 0600 or less, Puppet will manage this file back to incorrect permissions, for long term access making a copy of the key with the correct permissions is the best course of action. 
 
- - PuppetDB Metric Collection fails due to CVE-2020-7943  [27](https://github.com/MartyEwings/RSAN/issues/27)
+ - PuppetDB Metric Collection fails due to CVE-2020-7943  [27](https://github.com/puppetlabs/RSAN/issues/27)
 
-Please refer to the documenation of Puppet Metrics collector for recommended work arounds
+Please refer to the documentation of Puppet Metrics Dashboard for recommended work arounds
 
- - RSAN NFS volumes are mounted RW, but exported RO  [26](https://github.com/MartyEwings/RSAN/issues/26)
+ - RSAN NFS volumes are mounted RW, but exported RO  [26](https://github.com/puppetlabs/RSAN/issues/26)
  
  There is no impact to the end user
 
@@ -198,5 +198,5 @@ Please refer to the documenation of Puppet Metrics collector for recommended wor
 For feature development + bug reporting:
 
  - A Git Issue should exist or be created per feature or Bug
- - Repositary should be forked and any changes made by way of PR to the Main Branch
- - PRS should aways reference a git issue
+ - Repository should be forked and any changes made by way of PR to the Main Branch
+ - PRS should always reference a git issue

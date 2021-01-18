@@ -1,12 +1,12 @@
 {
-  "name": "martyewings-rsan",
-  "version": "0.1.0",
+  "name": "puppetlabs-rsan",
+  "version": "0.1.1",
   "author": "Martin Ewings",
   "summary": "Module to Configure Remote Support Access Node for Puppet Enterprise",
   "license": "Apache-2.0",
-  "source": "https://github.com/MartyEwings/RSAN",
-  "project_page": "https://github.com/MartyEwings/RSAN",
-  "issues_url": "https://github.com/MartyEwings/RSAN/issues",
+  "source": "https://github.com/puppetlabs/RSAN",
+  "project_page": "https://github.com/puppetlabs/RSAN",
+  "issues_url": "https://github.com/puppetlabs/RSAN/issues",
   "dependencies": [
     {
       "name": "puppetlabs/postgresql",
