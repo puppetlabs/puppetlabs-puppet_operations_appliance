@@ -9,6 +9,7 @@ appveyor.yml:
 Gemfile:
   optional:
     ":development":
+    - gem: 'toml-rb'
     - gem: github_changelog_generator
     - gem: puppet_litmus
       git: https://github.com/puppetlabs/puppet_litmus
