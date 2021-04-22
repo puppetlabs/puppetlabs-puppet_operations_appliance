@@ -1,15 +1,13 @@
-#
+# Sets up target nodes with nessary services and access for RSAN
 # When Applied to the Infrastruture Agent Node group, 
-#Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
-# @param [Array] rsan_ip_list
+# Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
+# @param [Array] rsan_importer_ips
 #   An array of rsan ip addresses
 #   Defaults to the output of a PuppetDB query
-# @param [String] rsan_host
+# @param [Optional[String]] rsan_host
 #   The certname of the rsan node
-# 
 # @example
 #   include rsan::exporter
-
 class rsan::exporter (
   Array $rsan_importer_ips = rsan::get_rsan_importer_ips(),
   Optional[String] $rsan_host = undef,

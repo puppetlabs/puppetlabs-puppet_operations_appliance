@@ -1,3 +1,5 @@
+
+# @return [Array] List of node running Puppetdb
 function rsan::get_puppetdb_hosts() {
   if $settings::storeconfigs {
     $puppetdb_hosts =
