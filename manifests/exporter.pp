@@ -116,11 +116,12 @@ class rsan::exporter (
           command    => $grant_cmd,
           db         => $db,
           port       => $pe_postgresql::server::port,
-          psql_user  => $pe_postgresql::server::user,
-          psql_group => $pe_postgresql::server::group,
-          psql_path  => $pe_postgresql::server::psql_path,
+          psql_user  => $puppet_enterprise::pg_user,
+          psql_group => $puppet_enterprise::pg_group,
+          psql_path  => $puppet_enterprise::pg_psql_path,
           unless     => "SELECT grantee, privilege_type FROM information_schema.role_table_grants WHERE privilege_type = 'SELECT' AND grantee = 'rsan'",
           require    => [
+            Class['puppet_enterprise'],
             Class['pe_postgresql::server'],
             Pe_postgresql::Server::Role['rsan']
           ]
