@@ -6,11 +6,20 @@
 #   Defaults to the output of a PuppetDB query
 # @param [Optional[String]] rsan_host
 #   The certname of the rsan node
+# @param [Optional[String]] pg_user
+#   The postgres user PE uses 
+# @param [Optional[String]] pg_group
+#   The postgres group PE uses the default is pg_user
+# @param [Optional[String]] pg_psql_path
+#   The path to the postgres binary in pe
 # @example
 #   include rsan::exporter
 class rsan::exporter (
   Array $rsan_importer_ips = rsan::get_rsan_importer_ips(),
   Optional[String] $rsan_host = undef,
+  Optional[String] $pg_user = 'pe-postgres',
+  Optional[String] $pg_group = $pg_user,
+  Optional[String] $pg_psql_path = '/opt/puppetlabs/server/bin/psql',
 ){
 
 ########################1.  Export Logging Function######################
@@ -116,9 +125,9 @@ class rsan::exporter (
           command    => $grant_cmd,
           db         => $db,
           port       => $pe_postgresql::server::port,
-          psql_user  => $pe_postgresql::server::user,
-          psql_group => $pe_postgresql::server::group,
-          psql_path  => $pe_postgresql::server::psql_path,
+          psql_user  => $pg_user,
+          psql_group => $pg_group,
+          psql_path  => $pg_psql_path,
           unless     => "SELECT grantee, privilege_type FROM information_schema.role_table_grants WHERE privilege_type = 'SELECT' AND grantee = 'rsan'",
           require    => [
             Class['pe_postgresql::server'],
