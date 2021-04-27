@@ -44,6 +44,9 @@ The following parameters are available in the `rsan::exporter` class:
 
 * [`rsan_importer_ips`](#rsan_importer_ips)
 * [`rsan_host`](#rsan_host)
+* [`pg_user`](#pg_user)
+* [`pg_group`](#pg_group)
+* [`pg_psql_path`](#pg_psql_path)
 
 ##### <a name="rsan_importer_ips"></a>`rsan_importer_ips`
 
@@ -61,6 +64,30 @@ Data type: `Optional[String]`
 The certname of the rsan node
 
 Default value: ``undef``
+
+##### <a name="pg_user"></a>`pg_user`
+
+Data type: `Optional[String]`
+
+The postgres user PE uses
+
+Default value: `'pe-postgres'`
+
+##### <a name="pg_group"></a>`pg_group`
+
+Data type: `Optional[String]`
+
+The postgres group PE uses the default is pg_user
+
+Default value: `$pg_user`
+
+##### <a name="pg_psql_path"></a>`pg_psql_path`
+
+Data type: `Optional[String]`
+
+The path to the postgres binary in pe
+
+Default value: `'/opt/puppetlabs/server/bin/psql'`
 
 ### <a name="rsanimporter"></a>`rsan::importer`
 
