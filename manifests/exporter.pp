@@ -17,7 +17,7 @@
 class rsan::exporter (
   Array $rsan_importer_ips = rsan::get_rsan_importer_ips(),
   Optional[String] $rsan_host = undef,
-  Optional[String] $pg_user =  'pe-postgres',
+  Optional[String] $pg_user = 'pe-postgres',
   Optional[String] $pg_group = $pg_user,
   Optional[String] $pg_psql_path = '/opt/puppetlabs/server/bin/psql',
 ){
