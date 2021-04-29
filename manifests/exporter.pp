@@ -66,7 +66,9 @@ class rsan::exporter (
   # include puppet_metrics_dashboard::profile::master::install
   ###################################################################
 
-  include puppet_metrics_dashboard::profile::master::install
+  if $facts['pe_server_version'] != undef {
+    include puppet_metrics_dashboard::profile::master::install
+  }
 
   #####################3. RSANpostgres command access ######################
   # Determine if node is pe_postgres host and conditionally apply Select Access for the RSAN node cert to all PE databases
