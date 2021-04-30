@@ -19,6 +19,13 @@ describe 'rsan::importer' do
         class puppet_enterprise::profile::controller {}
         class puppet_enterprise::params {$confdir =  "/etc/puppetlabs/puppet"}
         include puppet_enterprise::params
+        define pe_ini_setting (
+         $ensure,
+         $path,
+         $section,
+         $setting,
+         $value,
+         ){}
         PRE_COND
       end
 
