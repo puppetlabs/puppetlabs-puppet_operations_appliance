@@ -29,6 +29,14 @@ class rsan::importer {
     value   => '$privatekeydir/$certname.pem{mode = 0600}',
   }
 
+  pe_ini_setting { 'Key Permisions for Psql client':
+    ensure  => present,
+    path    => "${::puppet_enterprise::params::confdir}/puppet.conf",
+    section => 'main',
+    setting => 'hostprivkey',
+    value   => '$privatekeydir/$certname.pem{mode = 0600}',
+  }
+
 
   ################### 3. Telemetry dashboard ########################################
   # If using puppet_metrics_dashboard:
