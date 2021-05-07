@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-rsan",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Martin Ewings",
   "summary": "Module to Configure Remote Support Access Node for Puppet Enterprise",
   "license": "Apache-2.0",
