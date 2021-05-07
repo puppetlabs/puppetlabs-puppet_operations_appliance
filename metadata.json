@@ -13,10 +13,6 @@
       "version_requirement": ">= 6.6.0 < 7.0.0"
     },
     {
-      "name": "puppetlabs/puppet_metrics_collector",
-      "version_requirement": ">= 6.1.0 < 7.0.0"
-    },
-    {
       "name": "puppetlabs/puppet_metrics_dashboard",
       "version_requirement": ">= 2.3.0 < 3.0.0"
     },
@@ -62,7 +58,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 6.0.0 < 7.0.0"
+      "version_requirement": ">= 6.16.0 < 8.0.0"
     }
   ],
   "pdk-version": "2.1.0",

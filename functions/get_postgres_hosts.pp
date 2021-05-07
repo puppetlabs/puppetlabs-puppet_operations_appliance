@@ -1,3 +1,5 @@
+# Function to provide a list of pe_postgresql hosts to RSAN
+# @return [Array] List of FQDN 
 function rsan::get_postgres_hosts() {
     $postgres_hosts =
                 puppetdb_query('resources[certname] {

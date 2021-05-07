@@ -14,7 +14,20 @@ describe 'rsan::importer' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
-      let(:pre_condition) { 'class puppet_enterprise::profile::controller {}' }
+      let(:pre_condition) do
+        <<-PRE_COND
+        class puppet_enterprise::profile::controller {}
+        class puppet_enterprise::params {$confdir =  "/etc/puppetlabs/puppet"}
+        include puppet_enterprise::params
+        define pe_ini_setting (
+         $ensure,
+         $path,
+         $section,
+         $setting,
+         $value,
+         ){}
+        PRE_COND
+      end
 
       it { is_expected.to compile }
     end

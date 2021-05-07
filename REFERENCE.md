@@ -6,17 +6,17 @@
 
 ### Classes
 
-* [`rsan::exporter`](#rsanexporter)
+* [`rsan::exporter`](#rsanexporter): Sets up target nodes with nessary services and access for RSAN When Applied to the Infrastruture Agent Node group, Will dynamically configure
 * [`rsan::importer`](#rsanimporter): Class to consume the resources provided by the exporter class. when applied to a node, all tooling agttributed to RSAN will be set up
-* [`rsan::remove_exporter`](#rsanremove_exporter): A short summary of the purpose of this class
+* [`rsan::remove_exporter`](#rsanremove_exporter): disables and removes services and components enabled by the exporter class
 
 ### Functions
 
-* [`rsan::get_postgres_hosts`](#rsanget_postgres_hosts)
-* [`rsan::get_puppet_servers`](#rsanget_puppet_servers)
+* [`rsan::get_postgres_hosts`](#rsanget_postgres_hosts): Function to provide a list of pe_postgresql hosts to RSAN
+* [`rsan::get_puppet_servers`](#rsanget_puppet_servers): Function to return a list of components running pe_puppetserver to RSAN
 * [`rsan::get_puppetdb_hosts`](#rsanget_puppetdb_hosts)
 * [`rsan::get_rsan_importer_ips`](#rsanget_rsan_importer_ips)
-* [`rsan::license_uuid`](#rsanlicense_uuid): return the uuid from a Puppet license file supplied in $content If no $content parameter specified, tries to read the license file from /etc/
+* [`rsan::license_uuid`](#rsanlicense_uuid): If no $content parameter specified, tries to read the license file from /etc/puppetlabs/license.key
 
 ### Tasks
 
@@ -24,31 +24,72 @@
 
 ## Classes
 
-### `rsan::exporter`
+### <a name="rsanexporter"></a>`rsan::exporter`
 
-The rsan::exporter class.
+Sets up target nodes with nessary services and access for RSAN
+When Applied to the Infrastruture Agent Node group,
+Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
+
+#### Examples
+
+##### 
+
+```puppet
+include rsan::exporter
+```
 
 #### Parameters
 
-The following parameters are available in the `rsan::exporter` class.
+The following parameters are available in the `rsan::exporter` class:
 
-##### `rsan_importer_ips`
+* [`rsan_importer_ips`](#rsan_importer_ips)
+* [`rsan_host`](#rsan_host)
+* [`pg_user`](#pg_user)
+* [`pg_group`](#pg_group)
+* [`pg_psql_path`](#pg_psql_path)
+
+##### <a name="rsan_importer_ips"></a>`rsan_importer_ips`
 
 Data type: `Array`
 
-
+An array of rsan ip addresses
+Defaults to the output of a PuppetDB query
 
 Default value: `rsan::get_rsan_importer_ips()`
 
-##### `rsan_host`
+##### <a name="rsan_host"></a>`rsan_host`
 
 Data type: `Optional[String]`
 
-
+The certname of the rsan node
 
 Default value: ``undef``
 
-### `rsan::importer`
+##### <a name="pg_user"></a>`pg_user`
+
+Data type: `Optional[String]`
+
+The postgres user PE uses
+
+Default value: `'pe-postgres'`
+
+##### <a name="pg_group"></a>`pg_group`
+
+Data type: `Optional[String]`
+
+The postgres group PE uses the default is pg_user
+
+Default value: `$pg_user`
+
+##### <a name="pg_psql_path"></a>`pg_psql_path`
+
+Data type: `Optional[String]`
+
+The path to the postgres binary in pe
+
+Default value: `'/opt/puppetlabs/server/bin/psql'`
+
+### <a name="rsanimporter"></a>`rsan::importer`
 
 Class to consume the resources provided by the exporter class.
 when applied to a node, all tooling agttributed to RSAN will be set up
@@ -61,9 +102,9 @@ when applied to a node, all tooling agttributed to RSAN will be set up
 include rsan::importer
 ```
 
-### `rsan::remove_exporter`
+### <a name="rsanremove_exporter"></a>`rsan::remove_exporter`
 
-A description of what this class does
+In the event RSAN should be uninstalled on all or some of the exporter nodes, this will stop NFS service, and remove the database components if applied to a postgres node
 
 #### Examples
 
@@ -75,31 +116,31 @@ include rsan::remove_exporter
 
 ## Functions
 
-### `rsan::get_postgres_hosts`
+### <a name="rsanget_postgres_hosts"></a>`rsan::get_postgres_hosts`
 
 Type: Puppet Language
 
-The rsan::get_postgres_hosts function.
+Function to provide a list of pe_postgresql hosts to RSAN
 
 #### `rsan::get_postgres_hosts()`
 
-The rsan::get_postgres_hosts function.
+Function to provide a list of pe_postgresql hosts to RSAN
 
-Returns: `Any`
+Returns: `Array` List of FQDN
 
-### `rsan::get_puppet_servers`
+### <a name="rsanget_puppet_servers"></a>`rsan::get_puppet_servers`
 
 Type: Puppet Language
 
-The rsan::get_puppet_servers function.
+Function to return a list of components running pe_puppetserver to RSAN
 
 #### `rsan::get_puppet_servers()`
 
-The rsan::get_puppet_servers function.
+Function to return a list of components running pe_puppetserver to RSAN
 
-Returns: `Any`
+Returns: `Array` List of Fqdn of nodes with the Master profile
 
-### `rsan::get_puppetdb_hosts`
+### <a name="rsanget_puppetdb_hosts"></a>`rsan::get_puppetdb_hosts`
 
 Type: Puppet Language
 
@@ -109,9 +150,9 @@ The rsan::get_puppetdb_hosts function.
 
 The rsan::get_puppetdb_hosts function.
 
-Returns: `Any`
+Returns: `Array` List of node running Puppetdb
 
-### `rsan::get_rsan_importer_ips`
+### <a name="rsanget_rsan_importer_ips"></a>`rsan::get_rsan_importer_ips`
 
 Type: Puppet Language
 
@@ -123,31 +164,30 @@ The rsan::get_rsan_importer_ips function.
 
 Returns: `Array` List of IP addresses for RSAN nodes or an empty array
 
-### `rsan::license_uuid`
+### <a name="rsanlicense_uuid"></a>`rsan::license_uuid`
 
 Type: Puppet Language
 
-return the uuid from a Puppet license file supplied in $content
 If no $content parameter specified, tries to read the license file
 from /etc/puppetlabs/license.key
 
 #### `rsan::license_uuid(Optional[String] $content)`
 
-return the uuid from a Puppet license file supplied in $content
 If no $content parameter specified, tries to read the license file
 from /etc/puppetlabs/license.key
 
-Returns: `String`
+Returns: `String` the uuid from a Puppet license file supplied in $content
 
 ##### `content`
 
 Data type: `Optional[String]`
 
-
+An array of rsan ip addresses
+Defaults to the output of a PuppetDB query
 
 ## Tasks
 
-### `supportuser`
+### <a name="supportuser"></a>`supportuser`
 
 Creates pesupport user and PE Support Role, generated password should be shared with Puppet Enterprise Support personnel
 
