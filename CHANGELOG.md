@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v0.1.2](https://github.com/puppetlabs/RSAN/tree/v0.1.2) (2021-05-07)
+## [0.1.2](https://github.com/puppetlabs/RSAN/tree/0.1.2) (2021-05-07)
 
-[Full Changelog](https://github.com/puppetlabs/RSAN/compare/0.1.1...v0.1.2)
+[Full Changelog](https://github.com/puppetlabs/RSAN/compare/0.1.1...0.1.2)
 
 ### Fixed
 
