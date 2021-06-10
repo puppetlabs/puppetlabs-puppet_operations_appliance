@@ -2,14 +2,27 @@
 
 #### Table of Contents
 
-1. [Description](#description)
-2. [Setup - The basics of getting started with rsan](#setup)
-    * [What rsan affects](#what-rsan-affects)
+1. [RSAN is currently part of a Beta Program](#rsan-is-currently-part-of-a-beta-program)
+2. [Description](#description)
+3. [Setup - The basics of getting started with rsan](#setup)
+    * [What RSAN modifies in your PE Installation](#what-rsan-modifies-in-your-pe-installation) 
     * [Setup requirements](#setup-requirements)
     * [Beginning with rsan](#beginning-with-rsan)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Limitations - OS compatibility, etc.](#limitations)
-5. [Development - Guide for contributing to the module](#development)
+4. [Usage - Configuration options and additional functionality](#usage)
+5. [Limitations - OS compatibility, etc.](#limitations)
+6. [Development - Guide for contributing to the module](#development)
+
+
+## RSAN is currently part of a Beta Program
+
+The Puppet Enterprise Support team is opening an exciting Beta to help us remove some obstacles our customers have reported when engaging the Support Team for incident resolution.
+The Remote Support Service Beta is a combination of a Service provided by the Support team and Puppet Module named RSAN (Remote Support Access Node).
+Puppet Enterprise Support will work with you to see how your organization can access the RSAN deployment and how that process should be implemented. , Currently we have two access options; direct as an incoming VPN connection from the Puppet Support Member, or a simple screen share on the video conferencing software of your choice.
+
+### How you can get involved
+
+As an existing Puppet Enterprise customer with access to the [Support Portal](http://support.puppet.com), open a Priority 4 ticket with the subject  “Participate in the RSAN beta” and a support engineer will engage with you regarding access methods and any help installing the module you may need.
+
 
 ## Description
 
@@ -22,7 +35,7 @@ The node will allow for read-only access to Puppet Enterprise Component Data and
 
 ## Setup
 
-### What rsan affects 
+### What RSAN modifies in your PE Installation 
 
 RSAN will Export NFS mounts of key directories from each infrastructure node, while also setting up requirements for gathering of metrics and Database access for the RSAN node.
 Software required for the proper functioning of the RSAN will be deployed on the target agent node.
@@ -128,6 +141,7 @@ When successful the task will return a password, this should be delivered to Pup
 The Task creates the following user and role:
 <br>
 <br>
+
 **User:** pesupport 
 
 **Role:** PE Suport Role 
@@ -178,12 +192,6 @@ rsan::importer
  - The current version does not have any built in remote access capability
 
 ## Known Issues
-
-- When accessing the database from the RSAN node for the first time, an error message will be presented: [#40](https://github.com/puppetlabs/RSAN/issues/40)
-
-```psql: private key file "/etc/puppetlabs/puppet/ssl/private_keys/rsan-target.platform9.puppet.net.pem" has group or world access; permissions should be u=rw (0600) or less```
-
- To workaround change the private key file to 0600 or less, Puppet will manage this file back to incorrect permissions, for long term access making a copy of the key with the correct permissions is the best course of action. 
 
  - PuppetDB Metric Collection fails due to CVE-2020-7943  [27](https://github.com/puppetlabs/RSAN/issues/27)
 
