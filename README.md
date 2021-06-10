@@ -19,8 +19,8 @@ The Puppet Enterprise Support team is opening an exciting Beta to help us remove
 The Remote Support Service Beta is a combination of a Service provided by the Support team and Puppet Module named RSAN (Remote Support Access Node).
 Puppet Enterprise Support will work with you to see how your organization can access the RSAN deployment and how that process should be implemented. , Currently we have two access options; direct as an incoming VPN connection from the Puppet Support Member, or a simple screen share on the video conferencing software of your choice.
 
-### How you can get involved
-
+** How you can get involved**
+<br>
 As an existing Puppet Enterprise customer with access to the [Support Portal](http://support.puppet.com), open a Priority 4 ticket with the subject  “Participate in the RSAN beta” and a support engineer will engage with you regarding access methods and any help installing the module you may need.
 
 
