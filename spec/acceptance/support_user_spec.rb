@@ -1,4 +1,3 @@
-
 require 'spec_helper_acceptance'
 describe 'tasks' do
   it 'task not to fail and password to be created ' do
