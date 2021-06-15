@@ -9,8 +9,12 @@ node default {
   class { \'rsan::exporter\': }
              }" > /etc/puppetlabs/code/environments/production/manifests/site.pp')
 
-      expect(run_shell('/opt/puppetlabs/bin/puppet agent -t').exit_code).not_to eq(1)
-      expect(run_shell('/opt/puppetlabs/bin/puppet agent -t').exit_code).not_to eq(1)
+      expect { run_shell('/opt/puppetlabs/bin/puppet agent -t') }.to raise_error do |error|
+        expect(error).to be_a(COMMAND_ERROR)
+        expect(error.message).to match %r{"_output"=>"The command failed with exit code 2"}
+        expect(error.message).to match %r{"exit_code"=>2}
+      end
+      expect(run_shell('/opt/puppetlabs/bin/puppet agent -t').exit_code).to eq(0)
     end
   end
 end
