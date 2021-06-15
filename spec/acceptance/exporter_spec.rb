@@ -6,7 +6,7 @@ describe 'Exporter class' do
       run_shell('/bin/echo "File { backup => false }
 node default {
   # This is where you can declare classes for all nodes.
-  class { \'rsan:exporter\': } 
+  class { \'rsan::exporter\': }
              }" > /etc/puppetlabs/code/environments/production/manifests/site.pp')
 
       expect(run_shell('/opt/puppetlabs/bin/puppet agent -t').exit_code).not_to eq(1)
