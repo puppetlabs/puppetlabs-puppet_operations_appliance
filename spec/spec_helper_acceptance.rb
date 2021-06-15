@@ -4,6 +4,10 @@ require 'serverspec'
 require 'puppet_litmus'
 include PuppetLitmus
 
+RSpec.configure do |c|
+  c.mock_with :rspec
+end
+
 if ENV['TARGET_HOST'].nil? || ENV['TARGET_HOST'] == 'localhost'
   puts 'Running tests against this machine !'
   if Gem.win_platform?
