@@ -17,7 +17,7 @@
 
 The Puppet Enterprise Support team is opening an exciting Beta to help us remove some obstacles our customers have reported when engaging the Support Team for incident resolution.
 The Remote Support Service Beta is a combination of a Service provided by the Support team and Puppet Module named RSAN (Remote Support Access Node).
-Puppet Enterprise Support will work with you to see how your organization can access the RSAN deployment and how that process should be implemented. , Currently we have two access options; direct as an incoming VPN connection from the Puppet Support Member, or a simple screen share on the video conferencing software of your choice.
+Puppet Enterprise Support will work with you to see how your organization can access the RSAN deployment and how that process should be implemented. Currently we have two access options; direct as an incoming VPN connection from the Puppet Support Member, or a simple screen share on the video conferencing software of your choice.
 
 **How you can get involved**
 
@@ -80,7 +80,7 @@ RSAN has two main classes for use in the installation:
  - rsan::exporter - to be applied to all Puppet infrastructure agents - Console node group "PE Infrastructure Agent"
  - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node(RSAN)
 
-Following the application of these classes to the infrastructure, Puppet Will need to be run on the corresponding agents in the following order:
+Following the application of these classes to the infrastructure, Puppet will need to be run on the corresponding agents in the following order:
 
 Infrastructure Agent(s)->RSAN Agent->Infrastructure Agent(s)->RSAN Agent
 
@@ -88,7 +88,7 @@ Infrastructure Agent(s)->RSAN Agent->Infrastructure Agent(s)->RSAN Agent
 The following outlines the main features of RSAN and how to consume them
 ### Live Telemetry Display
 
-The Rsan node will host an instance of the [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
+The RSAN node will host an instance of the [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
  
 The Dashboard can be accessed on
 
@@ -125,7 +125,7 @@ Console Class Declaration
 
 ### PE Client tools
 
-The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise on the RSAN platform, For More information please see the Puppet Enterprise Documentation:
+The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise on the RSAN platform, for More information please see the Puppet Enterprise Documentation:
 
 [PE Client tools](https://puppet.com/docs/pe/2019.8/installing_pe_client_tools.html)
 
@@ -188,7 +188,7 @@ rsan::importer
 
 
 ## Limitations
- - The RSAN importer class should only be applied one agent node
+ - The RSAN importer class should only be applied on agent node
  - All features are currently enabled and can not be individually disabled, this will be addressed in future releases
  - The current version does not have any built in remote access capability
 
