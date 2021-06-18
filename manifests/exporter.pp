@@ -42,22 +42,25 @@ class rsan::exporter (
   $clients = "${_rsan_clients} localhost(ro)"
 
   nfs::server::export{ '/var/log/':
-    ensure  => 'mounted',
-    clients => $clients,
-    mount   => "/var/pesupport/${facts['fqdn']}/log",
-    nfstag  => 'rsan',
+    ensure      => 'mounted',
+    clients     => $clients,
+    mount       => "/var/pesupport/${facts['fqdn']}/log",
+    options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
+    nfstag      => 'rsan',
   }
   nfs::server::export{ '/opt/puppetlabs/':
-    ensure  => 'mounted',
-    clients => $clients,
-    mount   => "/var/pesupport/${facts['fqdn']}/opt",
-    nfstag  => 'rsan',
+    ensure      => 'mounted',
+    clients     => $clients,
+    mount       => "/var/pesupport/${facts['fqdn']}/opt",
+    options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
+    nfstag      => 'rsan',
   }
   nfs::server::export{ '/etc/puppetlabs/':
-    ensure  => 'mounted',
-    clients => $clients,
-    mount   => "/var/pesupport/${facts['fqdn']}/etc",
-    nfstag  => 'rsan',
+    ensure      => 'mounted',
+    clients     => $clients,
+    mount       => "/var/pesupport/${facts['fqdn']}/etc",
+    options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
+    nfstag      => 'rsan',
   }
 
 

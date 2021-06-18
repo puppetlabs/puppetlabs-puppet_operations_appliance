@@ -13,7 +13,6 @@ class rsan::importer {
   }
   Nfs::Client::Mount <<| nfstag == 'rsan' |>>
 
-
   #################### 2. Deploy Client tools, and deploy PSL client #################
   # include postgresql::client , include puppet_enterprise::profile::controller need to make postgresql module a dependancies
   ####################################################################################
