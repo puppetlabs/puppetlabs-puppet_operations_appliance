@@ -36,7 +36,11 @@ class rsan::exporter (
   }
 
 
-if $nfsmount {
+  $ensure = $nfsmount ? {
+    true  => 'mounted',
+    false => 'absent',
+  }
+
 
 # Convert the array of RSAN IP address into an list of clients with options for the NFS export.
 # This reduce will return a string of space deliminated IP addresses with the NFS options.
@@ -50,47 +54,27 @@ if $nfsmount {
   $clients = "${_rsan_clients} localhost(ro)"
 
   nfs::server::export{ '/var/log/':
-    ensure      => 'mounted',
+    ensure      => $ensure,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/log",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/opt/puppetlabs/':
-    ensure      => 'mounted',
+    ensure      => $ensure,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/opt",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/etc/puppetlabs/':
-    ensure      => 'mounted',
+    ensure      => $ensure,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/etc",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
 
-} else {
-    nfs::server::export{ '/var/log/':
-    ensure      => 'absent',
-    mount       => "/var/pesupport/${facts['fqdn']}/log",
-    options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
-    nfstag      => 'rsan',
-  }
-  nfs::server::export{ '/opt/puppetlabs/':
-    ensure      => 'absent',
-    mount       => "/var/pesupport/${facts['fqdn']}/opt",
-    options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
-    nfstag      => 'rsan',
-  }
-  nfs::server::export{ '/etc/puppetlabs/':
-    ensure      => 'absent',
-    mount       => "/var/pesupport/${facts['fqdn']}/etc",
-    options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
-    nfstag      => 'rsan',
-  }
-}
   ######################2. Metrics Dash Board deployment ###############
   # Assuming use of puppet metrics dashboard for telemetry all nodes need
   # include puppet_metrics_dashboard::profile::master::install
