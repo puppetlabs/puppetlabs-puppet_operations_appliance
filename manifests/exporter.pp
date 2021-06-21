@@ -73,19 +73,19 @@ if $nfsmount {
 
 } else {
     nfs::server::export{ '/var/log/':
-    ensure      => 'mounted',
+    ensure      => 'absent',
     mount       => "/var/pesupport/${facts['fqdn']}/log",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/opt/puppetlabs/':
-    ensure      => 'mounted',
+    ensure      => 'absent',
     mount       => "/var/pesupport/${facts['fqdn']}/opt",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/etc/puppetlabs/':
-    ensure      => 'mounted',
+    ensure      => 'absent',
     mount       => "/var/pesupport/${facts['fqdn']}/etc",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
