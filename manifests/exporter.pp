@@ -12,6 +12,8 @@
 #   The postgres group PE uses the default is pg_user
 # @param [Optional[String]] pg_psql_path
 #   The path to the postgres binary in pe
+# @param [Boolean] nfsmount
+#   Trigger to turn NFS Mounts On Or Off
 # @example
 #   include rsan::exporter
 class rsan::exporter (
@@ -20,15 +22,25 @@ class rsan::exporter (
   Optional[String] $pg_user = 'pe-postgres',
   Optional[String] $pg_group = $pg_user,
   Optional[String] $pg_psql_path = '/opt/puppetlabs/server/bin/psql',
+  Boolean $nfsmount = true,
 ){
 
 ########################1.  Export Logging Function######################
 # Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
 #########################################################################
 
+
+
   class { '::nfs':
     server_enabled => true
   }
+
+
+  $ensure = $nfsmount ? {
+    true  => 'mounted',
+    false => 'absent',
+  }
+
 
 # Convert the array of RSAN IP address into an list of clients with options for the NFS export.
 # This reduce will return a string of space deliminated IP addresses with the NFS options.
@@ -42,27 +54,26 @@ class rsan::exporter (
   $clients = "${_rsan_clients} localhost(ro)"
 
   nfs::server::export{ '/var/log/':
-    ensure      => 'mounted',
+    ensure      => $ensure,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/log",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/opt/puppetlabs/':
-    ensure      => 'mounted',
+    ensure      => $ensure,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/opt",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/etc/puppetlabs/':
-    ensure      => 'mounted',
+    ensure      => $ensure,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/etc",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
-
 
   ######################2. Metrics Dash Board deployment ###############
   # Assuming use of puppet metrics dashboard for telemetry all nodes need

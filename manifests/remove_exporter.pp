@@ -6,13 +6,10 @@
 #   include rsan::remove_exporter
 class rsan::remove_exporter {
 
-  #Disable NFS Server and revert config
+  #Disable NFS Server 
 
-  file { '/etc/exports':
-    ensure => absent,
-  }
 
-  service {'nfs':
+  service {'nfs-server':
     ensure => stopped,
   }
 

@@ -19,9 +19,9 @@ The Puppet Enterprise Support team is opening an exciting Beta to help us remove
 The Remote Support Service Beta is a combination of a Service provided by the Support team and Puppet Module named RSAN (Remote Support Access Node).
 Puppet Enterprise Support will work with you to see how your organization can access the RSAN deployment and how that process should be implemented. , Currently we have two access options; direct as an incoming VPN connection from the Puppet Support Member, or a simple screen share on the video conferencing software of your choice.
 
-**How you can get involved**
+How you can get involved
 
-<br>
+
 As an existing Puppet Enterprise customer with access to the [Support Portal](http://support.puppet.com), open a Priority 4 ticket with the subject  “Participate in the RSAN beta” and a support engineer will engage with you regarding access methods and any help installing the module you may need.
 
 
@@ -123,6 +123,15 @@ Console Class Declaration
 ["1.2.3.4"]
 ```
 
+The RSAN::Exporter class allows for the NFS mounts to be optionally available, to disable existing mounts, or prevent the mounts from installing in the first place set the following parameter:
+
+
+In Hiera
+
+```
+rsan::exporter::nfsmount: false
+```
+
 ### PE Client tools
 
 The RSAN node will deploy Puppet Client tools for use by Puppet Enterprise on the RSAN platform, For More information please see the Puppet Enterprise Documentation:
@@ -171,6 +180,7 @@ Where valid options for <pe_db_name> are:
 ## Uninstallation 
 
 To Uninstall RSAN from your Puppet Enterprise Infrastructure.
+
 
  - Remove the following Classification:
 rsan::exporter\
