@@ -47,6 +47,7 @@ The following parameters are available in the `rsan::exporter` class:
 * [`pg_user`](#pg_user)
 * [`pg_group`](#pg_group)
 * [`pg_psql_path`](#pg_psql_path)
+* [`nfsmount`](#nfsmount)
 
 ##### <a name="rsan_importer_ips"></a>`rsan_importer_ips`
 
@@ -88,6 +89,14 @@ Data type: `Optional[String]`
 The path to the postgres binary in pe
 
 Default value: `'/opt/puppetlabs/server/bin/psql'`
+
+##### <a name="nfsmount"></a>`nfsmount`
+
+Data type: `Boolean`
+
+Trigger to turn NFS Mounts On Or Off
+
+Default value: ``true``
 
 ### <a name="rsanimporter"></a>`rsan::importer`
 
