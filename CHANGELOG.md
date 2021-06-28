@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v0.2.0](https://github.com/puppetlabs/RSAN/tree/v0.2.0) (2021-06-26)
+
+[Full Changelog](https://github.com/puppetlabs/RSAN/compare/v0.1.3...v0.2.0)
+
+### Added
+
+- Make NFS mounts optional [\#66](https://github.com/puppetlabs/RSAN/pull/66) ([MartyEwings](https://github.com/MartyEwings))
+
+### Fixed
+
+- \(sup-2385\) Resolve unresponsive RSAN node as a result of missing NFS Server [\#64](https://github.com/puppetlabs/RSAN/pull/64) ([MartyEwings](https://github.com/MartyEwings))
+
 ## [v0.1.3](https://github.com/puppetlabs/RSAN/tree/v0.1.3) (2021-06-10)
 
 [Full Changelog](https://github.com/puppetlabs/RSAN/compare/0.1.2...v0.1.3)
