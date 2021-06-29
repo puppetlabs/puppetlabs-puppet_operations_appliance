@@ -2,15 +2,29 @@
 
 #### Table of Contents
 
-1. [RSAN is currently part of a Beta Program](#rsan-is-currently-part-of-a-beta-program)
-2. [Description](#description)
-3. [Setup - The basics of getting started with rsan](#setup)
-    * [What RSAN modifies in your PE Installation](#what-rsan-modifies-in-your-pe-installation) 
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with rsan](#beginning-with-rsan)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+- [rsan](#rsan)
+      - [Table of Contents](#table-of-contents)
+  - [RSAN is currently part of a Beta Program](#rsan-is-currently-part-of-a-beta-program)
+  - [Description](#description)
+  - [Setup](#setup)
+    - [What RSAN modifies in your PE Installation](#what-rsan-modifies-in-your-pe-installation)
+    - [Setup Requirements](#setup-requirements)
+      - [Module Dependencies](#module-dependencies)
+      - [Minimum Hardware requirements](#minimum-hardware-requirements)
+      - [OS Restrictions](#os-restrictions)
+    - [Beginning with rsan](#beginning-with-rsan)
+    - [Setup VPN client with profile](#setup-vpn-client-with-profile)
+  - [Usage](#usage)
+    - [Live Telemetry Display](#live-telemetry-display)
+    - [Infrastructure node file and log access](#infrastructure-node-file-and-log-access)
+      - [Optional Configuration](#optional-configuration)
+    - [PE Client tools](#pe-client-tools)
+      - [Creating Support User](#creating-support-user)
+    - [Puppet Enterprise Database Access](#puppet-enterprise-database-access)
+  - [Uninstallation](#uninstallation)
+  - [Limitations](#limitations)
+  - [Known Issues](#known-issues)
+  - [Contributions](#contributions)
 
 
 ## RSAN is currently part of a Beta Program
@@ -78,11 +92,29 @@ RSAN will support RHEL / Debian / Ubuntu however due to the additional of PE Cli
 RSAN has two main classes for use in the installation:
 
  - rsan::exporter - to be applied to all Puppet infrastructure agents - Console node group "PE Infrastructure Agent"
- - rsan::importer - to be applied to a single node which will be come the Remote Support Access Node(RSAN)
+ - rsan::importer - to be applied to a single node which will become the Remote Support Access Node(RSAN)
 
 Following the application of these classes to the infrastructure, Puppet Will need to be run on the corresponding agents in the following order:
 
 Infrastructure Agent(s)->RSAN Agent->Infrastructure Agent(s)->RSAN Agent
+
+### Setup VPN client with profile
+
+RSAN comes with `rsan::openvpn_client` class that when classified to the RSAN node it will:
+
+  - Install OpenVPN client on RSAN node
+  - Connect to Puppet's OpenVPN server and obtain customer VPN profile using customer's UUID
+  - Creates a service that will initiate a VPN connection from RSAN to Puppet's OpenVPN server using customer's VPN profile when started
+  - Places openvpnconnection.sh backup bash script on the RSAN node for manual execution
+
+RSAN OpenVPN client requirements:
+
+  1. Outbound HTTPS port 443 from RSAN node to Puppet's OpenVPN server to obtain customer's VPN profile
+  2. Outbound TCP port 943 from RSAN node to Puppet's OpenVPN server to establish vpn connection
+
+RSAN VPN connection will be initiated and terminated from the console by using the standard Puppet `package::linux` Task for `openvpn@puppet` RSAN service created by `rsan::openvpn_client` class. In the eventuality that the previously mentioned task cannot be initiated from the console, use `/etc/openvpn/openvpnconnection.sh` to initiate vpn client connection utilising a previously downloaded customer's VPN profile.
+
+Once a VPN connection has been successfully established between RSAN node and Puppet's OpenVPN server, a Puppet's Support Engineer will be able to log onto the RSAN node using a similar connection to the same VPN network.
 
 ## Usage
 The following outlines the main features of RSAN and how to consume them
@@ -185,6 +217,8 @@ To Uninstall RSAN from your Puppet Enterprise Infrastructure.
  - Remove the following Classification:
 rsan::exporter\
 rsan::importer
+rsan::openvpn_client
+
 
  - Add the following classification to the "PE Infrastructure Agent" node group
  rsan::remove_exporter
@@ -200,7 +234,9 @@ rsan::importer
 ## Limitations
  - The RSAN importer class should only be applied one agent node
  - All features are currently enabled and can not be individually disabled, this will be addressed in future releases
- - The current version does not have any built in remote access capability
+ - If `rsan::openvpn_client` classified to a RHEL RSAN node, EPEL Repository needs to be added to the node prior
+  to applying the class in order to successfully install `openvpn` client software.
+
 
 ## Known Issues
 
