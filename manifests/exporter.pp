@@ -1,6 +1,7 @@
 # Sets up target nodes with nessary services and access for RSAN
 # When Applied to the Infrastruture Agent Node group, 
-# Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
+# Will dynamically configure all matching nodes to allow
+#access to key elements of Puppet Enterprise to the RSAN node
 # @param [Array] rsan_importer_ips
 #   An array of rsan ip addresses
 #   Defaults to the output of a PuppetDB query
@@ -26,7 +27,8 @@ class rsan::exporter (
 ){
 
 ########################1.  Export Logging Function######################
-# Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
+# Need to determine automatically the Network Fact IP for the 
+#RSAN::importer node automatically, applies to all infrastructure nodes
 #########################################################################
 
 
@@ -80,12 +82,13 @@ class rsan::exporter (
   # include puppet_metrics_dashboard::profile::master::install
   ###################################################################
 
-  if $facts['pe_server_version'] != undef {
+  if $facts['pe_server_version'] != undef and $trusted['extensions']['1.3.6.1.4.1.34380.1.1.9812'] != 'puppet/puppetdb-database' {
     include puppet_metrics_dashboard::profile::master::install
   }
 
   #####################3. RSANpostgres command access ######################
-  # Determine if node is pe_postgres host and conditionally apply Select Access for the RSAN node cert to all PE databases
+  # Determine if node is pe_postgres host and conditionally apply 
+  # Select Access for the RSAN node cert to all PE databases
   # and conditionally apply include puppet_metrics_dashboard::profile::master::postgres_access
   ######################################################################
 
@@ -127,7 +130,17 @@ class rsan::exporter (
         $postgres_version = '9.4'
       }
 
+  # Due to the advent of PE_XL different postgres instances contain different schemas
+  # this conditional compensates by checking for pe_xl role facts
+
+    if $trusted['extensions']['1.3.6.1.4.1.34380.1.1.9812'] == 'puppet/puppetdb-database' {
+      $dbs = ['pe-puppetdb']
+    } elsif $trusted['extensions']['1.3.6.1.4.1.34380.1.1.9812'] == 'puppet/server' {
+      $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-rbac', 'pe-orchestrator']
+    } else {
       $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator']
+    }
+
       $dbs.each |$db|{
         pe_postgresql::server::database_grant { "CONNECT to rsan for ${db}":
           privilege => 'CONNECT',
