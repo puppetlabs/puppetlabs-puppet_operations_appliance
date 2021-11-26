@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=2046
 
 # Puppet Task Name: supportuser
 #
