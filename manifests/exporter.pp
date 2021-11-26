@@ -15,6 +15,8 @@
 #   The path to the postgres binary in pe
 # @param [Boolean] nfsmount
 #   Trigger to turn NFS Mounts On Or Off
+# @param [Optional[Enum]] logdir
+#   Allows the scope of logging to be narrowed
 # @example
 #   include rsan::exporter
 class rsan::exporter (
@@ -23,6 +25,7 @@ class rsan::exporter (
   Optional[String] $pg_user = 'pe-postgres',
   Optional[String] $pg_group = $pg_user,
   Optional[String] $pg_psql_path = '/opt/puppetlabs/server/bin/psql',
+  Enum['/var/log/', '/var/log/puppetlabs/'] $logdir = '/var/log/',
   Boolean $nfsmount = true,
 ){
 
@@ -55,7 +58,7 @@ class rsan::exporter (
   }
   $clients = "${_rsan_clients} localhost(ro)"
 
-  nfs::server::export{ '/var/log/':
+  nfs::server::export{ $logdir:
     ensure      => $ensure,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/log",
