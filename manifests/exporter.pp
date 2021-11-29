@@ -13,8 +13,12 @@
 #   The postgres group PE uses the default is pg_user
 # @param [Optional[String]] pg_psql_path
 #   The path to the postgres binary in pe
-# @param [Boolean] nfsmount
-#   Trigger to turn NFS Mounts On Or Off
+# @param [Boolean] nfsmount_log
+#   Trigger to turn NFS Mounts for logging On Or Off
+# @param [Boolean] nfsmount_etc
+#   Trigger to turn NFS Mounts for /etc/puppetlabs On Or Off
+# @param [Boolean] nfsmount_opt
+#   Trigger to turn NFS Mounts for /opt/puppetlabs On Or Off
 # @param [Optional[Enum]] logdir
 #   Allows the scope of logging to be narrowed
 # @example
@@ -26,7 +30,9 @@ class rsan::exporter (
   Optional[String] $pg_group = $pg_user,
   Optional[String] $pg_psql_path = '/opt/puppetlabs/server/bin/psql',
   Enum['/var/log/', '/var/log/puppetlabs/'] $logdir = '/var/log/',
-  Boolean $nfsmount = true,
+  Boolean $nfsmount_log = true,
+  Boolean $nfsmount_etc = true,
+  Boolean $nfsmount_opt= true,
 ){
 
 ########################1.  Export Logging Function######################
@@ -41,10 +47,22 @@ class rsan::exporter (
   }
 
 
-  $ensure = $nfsmount ? {
+  $ensure_log = $nfsmount_log ? {
     true  => 'mounted',
     false => 'absent',
   }
+
+  $ensure_etc = $nfsmount_etc ? {
+    true  => 'mounted',
+    false => 'absent',
+  }
+
+
+    $ensure_opt = $nfsmount_opt ? {
+    true  => 'mounted',
+    false => 'absent',
+  }
+
 
 
 # Convert the array of RSAN IP address into an list of clients with options for the NFS export.
@@ -59,21 +77,21 @@ class rsan::exporter (
   $clients = "${_rsan_clients} localhost(ro)"
 
   nfs::server::export{ $logdir:
-    ensure      => $ensure,
+    ensure      => $ensure_log,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/log",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/opt/puppetlabs/':
-    ensure      => $ensure,
+    ensure      => $ensure_opt,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/opt",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/etc/puppetlabs/':
-    ensure      => $ensure,
+    ensure      => $ensure_etc,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/etc",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
