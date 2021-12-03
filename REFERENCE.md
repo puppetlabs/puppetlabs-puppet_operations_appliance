@@ -28,7 +28,8 @@
 
 Sets up target nodes with nessary services and access for RSAN
 When Applied to the Infrastruture Agent Node group,
-Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
+Will dynamically configure all matching nodes to allow
+access to key elements of Puppet Enterprise to the RSAN node
 
 #### Examples
 
@@ -47,7 +48,10 @@ The following parameters are available in the `rsan::exporter` class:
 * [`pg_user`](#pg_user)
 * [`pg_group`](#pg_group)
 * [`pg_psql_path`](#pg_psql_path)
-* [`nfsmount`](#nfsmount)
+* [`nfsmount_log`](#nfsmount_log)
+* [`nfsmount_etc`](#nfsmount_etc)
+* [`nfsmount_opt`](#nfsmount_opt)
+* [`logdir`](#logdir)
 
 ##### <a name="rsan_importer_ips"></a>`rsan_importer_ips`
 
@@ -90,13 +94,37 @@ The path to the postgres binary in pe
 
 Default value: `'/opt/puppetlabs/server/bin/psql'`
 
-##### <a name="nfsmount"></a>`nfsmount`
+##### <a name="nfsmount_log"></a>`nfsmount_log`
 
 Data type: `Boolean`
 
-Trigger to turn NFS Mounts On Or Off
+Trigger to turn NFS Mounts for logging On Or Off
 
 Default value: ``true``
+
+##### <a name="nfsmount_etc"></a>`nfsmount_etc`
+
+Data type: `Boolean`
+
+Trigger to turn NFS Mounts for /etc/puppetlabs On Or Off
+
+Default value: ``true``
+
+##### <a name="nfsmount_opt"></a>`nfsmount_opt`
+
+Data type: `Boolean`
+
+Trigger to turn NFS Mounts for /opt/puppetlabs On Or Off
+
+Default value: ``true``
+
+##### <a name="logdir"></a>`logdir`
+
+Data type: `Enum['/var/log/', '/var/log/puppetlabs/']`
+
+Allows the scope of logging to be narrowed
+
+Default value: `'/var/log/'`
 
 ### <a name="rsanimporter"></a>`rsan::importer`
 
@@ -113,7 +141,8 @@ include rsan::importer
 
 ### <a name="rsanremove_exporter"></a>`rsan::remove_exporter`
 
-In the event RSAN should be uninstalled on all or some of the exporter nodes, this will stop NFS service, and remove the database components if applied to a postgres node
+In the event RSAN should be uninstalled on all or some of the exporter nodes,
+this will stop NFS service, and remove the database components if applied to a postgres node
 
 #### Examples
 
