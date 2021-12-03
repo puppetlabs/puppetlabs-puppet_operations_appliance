@@ -1,6 +1,7 @@
 # Sets up target nodes with nessary services and access for RSAN
 # When Applied to the Infrastruture Agent Node group, 
-# Will dynamically configure all matching nodes to allow access to key elements of Puppet Enterprise to the RSAN node
+# Will dynamically configure all matching nodes to allow
+#access to key elements of Puppet Enterprise to the RSAN node
 # @param [Array] rsan_importer_ips
 #   An array of rsan ip addresses
 #   Defaults to the output of a PuppetDB query
@@ -12,8 +13,14 @@
 #   The postgres group PE uses the default is pg_user
 # @param [Optional[String]] pg_psql_path
 #   The path to the postgres binary in pe
-# @param [Boolean] nfsmount
-#   Trigger to turn NFS Mounts On Or Off
+# @param [Boolean] nfsmount_log
+#   Trigger to turn NFS Mounts for logging On Or Off
+# @param [Boolean] nfsmount_etc
+#   Trigger to turn NFS Mounts for /etc/puppetlabs On Or Off
+# @param [Boolean] nfsmount_opt
+#   Trigger to turn NFS Mounts for /opt/puppetlabs On Or Off
+# @param [Optional[Enum]] logdir
+#   Allows the scope of logging to be narrowed
 # @example
 #   include rsan::exporter
 class rsan::exporter (
@@ -22,11 +29,15 @@ class rsan::exporter (
   Optional[String] $pg_user = 'pe-postgres',
   Optional[String] $pg_group = $pg_user,
   Optional[String] $pg_psql_path = '/opt/puppetlabs/server/bin/psql',
-  Boolean $nfsmount = true,
+  Enum['/var/log/', '/var/log/puppetlabs/'] $logdir = '/var/log/',
+  Boolean $nfsmount_log = true,
+  Boolean $nfsmount_etc = true,
+  Boolean $nfsmount_opt= true,
 ){
 
 ########################1.  Export Logging Function######################
-# Need to determine automatically the Network Fact IP for the RSAN::importer node automatically, applies to all infrastructure nodes
+# Need to determine automatically the Network Fact IP for the 
+#RSAN::importer node automatically, applies to all infrastructure nodes
 #########################################################################
 
 
@@ -36,10 +47,22 @@ class rsan::exporter (
   }
 
 
-  $ensure = $nfsmount ? {
+  $ensure_log = $nfsmount_log ? {
     true  => 'mounted',
     false => 'absent',
   }
+
+  $ensure_etc = $nfsmount_etc ? {
+    true  => 'mounted',
+    false => 'absent',
+  }
+
+
+    $ensure_opt = $nfsmount_opt ? {
+    true  => 'mounted',
+    false => 'absent',
+  }
+
 
 
 # Convert the array of RSAN IP address into an list of clients with options for the NFS export.
@@ -53,22 +76,22 @@ class rsan::exporter (
   }
   $clients = "${_rsan_clients} localhost(ro)"
 
-  nfs::server::export{ '/var/log/':
-    ensure      => $ensure,
+  nfs::server::export{ $logdir:
+    ensure      => $ensure_log,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/log",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/opt/puppetlabs/':
-    ensure      => $ensure,
+    ensure      => $ensure_opt,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/opt",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
     nfstag      => 'rsan',
   }
   nfs::server::export{ '/etc/puppetlabs/':
-    ensure      => $ensure,
+    ensure      => $ensure_etc,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['fqdn']}/etc",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
@@ -80,12 +103,13 @@ class rsan::exporter (
   # include puppet_metrics_dashboard::profile::master::install
   ###################################################################
 
-  if $facts['pe_server_version'] != undef {
+  if $facts['pe_server_version'] != undef and $trusted['extensions']['1.3.6.1.4.1.34380.1.1.9812'] != 'puppet/puppetdb-database' {
     include puppet_metrics_dashboard::profile::master::install
   }
 
   #####################3. RSANpostgres command access ######################
-  # Determine if node is pe_postgres host and conditionally apply Select Access for the RSAN node cert to all PE databases
+  # Determine if node is pe_postgres host and conditionally apply 
+  # Select Access for the RSAN node cert to all PE databases
   # and conditionally apply include puppet_metrics_dashboard::profile::master::postgres_access
   ######################################################################
 
@@ -127,7 +151,17 @@ class rsan::exporter (
         $postgres_version = '9.4'
       }
 
+  # Due to the advent of PE_XL different postgres instances contain different schemas
+  # this conditional compensates by checking for pe_xl role facts
+
+    if $trusted['extensions']['1.3.6.1.4.1.34380.1.1.9812'] == 'puppet/puppetdb-database' {
+      $dbs = ['pe-puppetdb']
+    } elsif $trusted['extensions']['1.3.6.1.4.1.34380.1.1.9812'] == 'puppet/server' {
+      $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-rbac', 'pe-orchestrator']
+    } else {
       $dbs = ['pe-activity', 'pe-classifier', 'pe-inventory', 'pe-puppetdb', 'pe-rbac', 'pe-orchestrator']
+    }
+
       $dbs.each |$db|{
         pe_postgresql::server::database_grant { "CONNECT to rsan for ${db}":
           privilege => 'CONNECT',

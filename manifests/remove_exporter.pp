@@ -1,6 +1,7 @@
 # @summary disables and removes services and components enabled by the exporter class
 #
-# In the event RSAN should be uninstalled on all or some of the exporter nodes, this will stop NFS service, and remove the database components if applied to a postgres node
+# In the event RSAN should be uninstalled on all or some of the exporter nodes,
+# this will stop NFS service, and remove the database components if applied to a postgres node
 #
 # @example
 #   include rsan::remove_exporter
