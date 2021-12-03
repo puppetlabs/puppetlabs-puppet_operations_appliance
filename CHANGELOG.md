@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v0.3.0](https://github.com/puppetlabs/RSAN/tree/v0.3.0) (2021-12-03)
+
+[Full Changelog](https://github.com/puppetlabs/RSAN/compare/v0.2.0...v0.3.0)
+
+### Added
+
+- \(SUP-2817\) Consider the distributed architecture of PE\_XL and make log scope configurable [\#81](https://github.com/puppetlabs/RSAN/pull/81) ([MartyEwings](https://github.com/MartyEwings))
+
 ## [v0.2.0](https://github.com/puppetlabs/RSAN/tree/v0.2.0) (2021-06-28)
 
 [Full Changelog](https://github.com/puppetlabs/RSAN/compare/v0.1.3...v0.2.0)
