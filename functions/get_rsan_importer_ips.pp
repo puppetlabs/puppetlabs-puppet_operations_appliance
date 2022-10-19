@@ -2,7 +2,7 @@
 function rsan::get_rsan_importer_ips() {
   if $settings::storeconfigs {
     $rsan_importer_ips =
-      puppetdb_query('facts[value]{
+    puppetdb_query('facts[value]{
         name = "ipaddress" and
         certname in resources[certname] {
           type = "Class" and

@@ -4,20 +4,13 @@
 fixtures:
   forge_modules:
     stdlib: "puppetlabs/stdlib"
-    concat: "puppetlabs/concat"
     postgresql: "puppetlabs/postgresql"
-    puppetdb: "puppetlabs/puppetdb"
-    puppet_metrics_dashboard: 
-      repo:  "puppetlabs/puppet_metrics_dashboard"
-      ref:  "2.4.0"  
-    puppet_metrics_collector: "puppetlabs/puppet_metrics_collector"
+    puppet_metrics_dashboard: "puppetlabs/puppet_operational_dashboards"
     nfs: "derdanne/nfs"
     yumrepo: "puppetlabs/yumrepo_core"
     grafana: "puppet/grafana"
-    telegraf:
-      repo: "puppet/telegraf"
-      ref: "3.1.0"
-    puppetserver_gem: "puppetlabs/puppetserver_gem"
+    telegraf: "puppet/telegraf"
+    influxdb: "puppetlabs/influxdb"
   repositories:
     facts: 'https://github.com/puppetlabs/puppetlabs-facts'
     puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent'

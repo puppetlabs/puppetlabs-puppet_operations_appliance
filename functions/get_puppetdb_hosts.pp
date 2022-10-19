@@ -1,9 +1,8 @@
-
 # @return [Array] List of node running Puppetdb
 function rsan::get_puppetdb_hosts() {
   if $settings::storeconfigs {
     $puppetdb_hosts =
-                puppetdb_query('resources[certname] {
+    puppetdb_query('resources[certname] {
                     type = "Class" and
                     title = "Puppet_enterprise::Profile::Puppetdb" and
                     nodes {
