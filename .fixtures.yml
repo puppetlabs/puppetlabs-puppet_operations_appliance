@@ -11,6 +11,9 @@ fixtures:
     grafana: "puppet/grafana"
     telegraf: "puppet/telegraf"
     influxdb: "puppetlabs/influxdb"
+    concat: "puppetlabs/concat"
+    transition: "puppetlabs/transition"
+    apt: "puppetlabs/apt"  
   repositories:
     facts: 'https://github.com/puppetlabs/puppetlabs-facts'
     puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent'
