@@ -10,11 +10,11 @@
   "dependencies": [
     {
       "name": "puppetlabs/postgresql",
-      "version_requirement": ">= 6.6.0 < 8.0.0"
+      "version_requirement": ">= 6.6.0 < 9.0.0"
     },
     {
-      "name": "puppetlabs/puppet_metrics_dashboard",
-      "version_requirement": ">= 2.3.0 < 3.0.0"
+      "name": "puppetlabs/puppet_operational_dashboards",
+      "version_requirement": ">= 1.7.0 < 2.0.0"
     },
     {
       "name": "derdanne/nfs",
@@ -61,7 +61,7 @@
       "version_requirement": ">= 6.16.0 < 8.0.0"
     }
   ],
-  "pdk-version": "2.3.0",
+  "pdk-version": "2.5.0",
   "template-url": "https://github.com/puppetlabs/pdk-templates#main",
-  "template-ref": "tags/2.3.0-0-g8aaceff"
+  "template-ref": "tags/2.6.0-0-gd0490b9"
 }

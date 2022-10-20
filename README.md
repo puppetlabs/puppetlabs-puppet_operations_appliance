@@ -2,15 +2,28 @@
 
 #### Table of Contents
 
-1. [RSAN is currently part of a Beta Program](#rsan-is-currently-part-of-a-beta-program)
-2. [Description](#description)
-3. [Setup - The basics of getting started with rsan](#setup)
-    * [What RSAN modifies in your PE Installation](#what-rsan-modifies-in-your-pe-installation) 
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with rsan](#beginning-with-rsan)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+- [rsan](#rsan)
+      - [Table of Contents](#table-of-contents)
+  - [RSAN is currently part of a Beta Program](#rsan-is-currently-part-of-a-beta-program)
+  - [Description](#description)
+  - [Setup](#setup)
+    - [What RSAN modifies in your PE Installation](#what-rsan-modifies-in-your-pe-installation)
+    - [Setup Requirements](#setup-requirements)
+      - [Module Dependencies](#module-dependencies)
+      - [Minimum Hardware requirements](#minimum-hardware-requirements)
+      - [OS Restrictions](#os-restrictions)
+    - [Beginning with rsan](#beginning-with-rsan)
+  - [Usage](#usage)
+    - [Live Telemetry Display](#live-telemetry-display)
+    - [Infrastructure node file and log access](#infrastructure-node-file-and-log-access)
+      - [Optional Configuration](#optional-configuration)
+    - [PE Client tools](#pe-client-tools)
+      - [Creating Support User](#creating-support-user)
+    - [Puppet Enterprise Database Access](#puppet-enterprise-database-access)
+  - [Uninstallation](#uninstallation)
+  - [Limitations](#limitations)
+  - [Known Issues](#known-issues)
+  - [Contributions](#contributions)
 
 
 ## RSAN is currently part of a Beta Program
@@ -48,16 +61,17 @@ Software required for the proper functioning of the RSAN will be deployed on the
 
 - derdanne/nfs (>= 2.1.5)
 - puppetlabs/postgresql (>= 6.6.0)
-- puppetlabs/puppet_metrics_dashboard (>= 2.3.0)
-- puppetlabs/stdlib (>= 4.5.0 < 8.1.0)
+- puppetlabs/puppet_operational_dashboards (>= 1.7.0)
+- puppetlabs/influxdb  (>=1.3.1)
+- puppetlabs/stdlib (>= 4.5.0 < 9.0.0)
 - puppetlabs/concat (>= 1.1.2 < 7.0.0)
 - puppetlabs/transition (>= 0.1.0 < 1.0.0)
 - herculesteam/augeasproviders_core (>= 2.1.5 < 4.0.0)
 - herculesteam/augeasproviders_shellvar (>= 1.2.0 < 5.0.0)
 - puppetlabs/apt (>= 2.0.0 < 8.0.0)
-- puppet-grafana (>= 3.0.0 < 10.0.0)
-- puppet-telegraf (>= 2.0.0 < 5.0.0)
-- puppetlabs-apt (>= 4.3.0 < 8.0.0)
+- puppet-grafana (>= 3.0.0 < 11.0.0)
+- puppet-telegraf (>= 2.0.0 < 6.0.0)
+- puppetlabs-apt (>= 4.3.0 < 9.0.0)
 - puppetlabs-inifile (>= 2.0.0 < 5.0.0)
 - puppetlabs-puppetserver_gem (>= 1.1.1 < 3.0.0)
 
@@ -88,7 +102,7 @@ Infrastructure Agent(s)->RSAN Agent->Infrastructure Agent(s)->RSAN Agent
 The following outlines the main features of RSAN and how to consume them
 ### Live Telemetry Display
 
-The Rsan node will host an instance of the [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
+The Rsan node will host an instance of the [Puppet Operational Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_operational_dashboards)
  
 The Dashboard can be accessed on
 
@@ -96,7 +110,7 @@ The Dashboard can be accessed on
 **User:** admin\
 **Password:** admin
 
-For advanced configuration and documentation please see [Puppet Metrics Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_metrics_dashboard)
+For advanced configuration and documentation please see [Puppet Operational Dashboard](https://forge.puppet.com/modules/puppetlabs/puppet_operational_dashboards)
 
 ### Infrastructure node file and log access	
 
