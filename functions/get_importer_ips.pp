@@ -1,5 +1,5 @@
 # @return [Array] List of IP addresses of the Puppet_operations_appliance(s) or an empty array
-function rsan::get_importer_ips() {
+function puppet_operations_appliance::get_importer_ips() {
   if $settings::storeconfigs {
     $importer_ips =
     puppetdb_query('facts[value]{
