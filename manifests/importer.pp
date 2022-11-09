@@ -1,19 +1,15 @@
 # Class to consume the resources provided by the exporter class.
-# when applied to a node, all tooling agttributed to RSAN will be set up
+# when applied to a node, all tooling agttributed to puppet_operations_appliance will be set up
 # @example
-#   include rsan::importer
-class rsan::importer {
-  ##################### 1.Import logging from the exporter groups #####################
-  # depending on the method, could be import exported respore with rsan tag
-  #####################################################################################
-
+#   include puppet_operations_appliance::importer
+class puppet_operations_appliance::importer {
+  # Import the logs by mounting the NFS mountpoints from the exporter nodes
   class { 'nfs':
     client_enabled => true,
   }
-  Nfs::Client::Mount <<| nfstag == 'rsan' |>>
+  Nfs::Client::Mount <<| nfstag == 'puppet_operations_appliance' |>>
 
-  #################### 2. Deploy Client tools, and deploy PSL client #################
-  ####################################################################################
+  # Deploy Client tools, and deploy PSL client
 
   include postgresql::client
   include puppet_enterprise::profile::controller
@@ -26,7 +22,7 @@ class rsan::importer {
     value   => '$privatekeydir/$certname.pem{mode = 0600}',
   }
 
-  ################### 3. Operational dashboards deployment ########################################
+  # Operational dashboards deployment 
 
   include puppet_operational_dashboards
 }

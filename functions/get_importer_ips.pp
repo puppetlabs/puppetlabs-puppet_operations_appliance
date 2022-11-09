@@ -1,12 +1,12 @@
-# @return [Array] List of IP addresses for RSAN nodes or an empty array
-function rsan::get_rsan_importer_ips() {
+# @return [Array] List of IP addresses of the Puppet_operations_appliance(s) or an empty array
+function puppet_operations_appliance::get_importer_ips() {
   if $settings::storeconfigs {
-    $rsan_importer_ips =
+    $importer_ips =
     puppetdb_query('facts[value]{
         name = "ipaddress" and
         certname in resources[certname] {
           type = "Class" and
-          title = "Rsan::Importer" and
+          title = "Puppet_operations_appliance::Importer" and
           nodes {
             deactivated is null and
             expired is null
@@ -14,6 +14,6 @@ function rsan::get_rsan_importer_ips() {
           }
         }').map |$data| { $data['value'] }
   } else {
-    $rsan_importer_ips = []
+    $importer_ips = []
   }
 }

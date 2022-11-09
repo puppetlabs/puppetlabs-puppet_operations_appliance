@@ -1,5 +1,5 @@
 # @return [Array] List of node running Puppetdb
-function rsan::get_puppetdb_hosts() {
+function puppet_operations_appliance::get_puppetdb_hosts() {
   if $settings::storeconfigs {
     $puppetdb_hosts =
     puppetdb_query('resources[certname] {

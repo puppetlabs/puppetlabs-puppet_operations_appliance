@@ -1,12 +1,12 @@
-# Sets up target nodes with nessary services and access for RSAN
+# Sets up target nodes with nessary services and access for the puppet_operations_appliance
 # When Applied to the Infrastructure Agent Node group, 
 # Will dynamically configure all matching nodes to allow
-#access to key elements of Puppet Enterprise to the RSAN node
-# @param [Array] rsan_importer_ips
-#   An array of rsan ip addresses
+#access to key elements of Puppet Enterprise to the puppet_operations_appliance 
+# @param [Array] importer_ips
+#   An array of importer node ip addresses
 #   Defaults to the output of a PuppetDB query
-# @param [Optional[String]] rsan_host
-#   The certname of the rsan node
+# @param [Optional[String]] appliance_host
+#   The certname of the puppet_operations_appliance 
 # @param [Optional[String]] pg_user
 #   The postgres user PE uses 
 # @param [Optional[String]] pg_group
@@ -22,10 +22,10 @@
 # @param [Optional[Enum]] logdir
 #   Allows the scope of logging to be narrowed
 # @example
-#   include rsan::exporter
-class rsan::exporter (
-  Array $rsan_importer_ips = rsan::get_rsan_importer_ips(),
-  Optional[String] $rsan_host = undef,
+#   include puppet_operations_appliance::exporter
+class puppet_operations_appliance::exporter (
+  Array $importer_ips = puppet_operations_appliance::get_importer_ips(),
+  Optional[String] $appliance_host = undef,
   String $pg_user = 'pe-postgres',
   String $pg_group = $pg_user,
   String $pg_psql_path = '/opt/puppetlabs/server/bin/psql',
@@ -34,10 +34,7 @@ class rsan::exporter (
   Boolean $nfsmount_etc = true,
   Boolean $nfsmount_opt= true,
 ) {
-########################1.  Export Logging Function######################
-# Need to determine automatically the Network Fact IP for the 
-#RSAN::importer node automatically, applies to all infrastructure nodes
-#########################################################################
+  # Setup the NFS Mounts for the appliance
 
   class { 'nfs':
     server_enabled => true,
@@ -58,55 +55,44 @@ class rsan::exporter (
     false => 'absent',
   }
 
-# Convert the array of RSAN IP address into an list of clients with options for the NFS export.
-# This reduce will return a string of space deliminated IP addresses with the NFS options.
-# For example, the output for ['1.2.3.4'] is " 1.2.3.4(ro,insecure,async,no_root_squash)"
-# For example, the output for ['1.2.3.4', '5.6.7.8'] is 
-#   " 1.2.3.4(ro,insecure,async,no_root_squash) 5.6.7.8(ro,insecure,async,no_root_squash)"
-
-  $_rsan_clients = $rsan_importer_ips.reduce('') |$memo, $ip| {
+  $_clients = $importer_ips.reduce('') |$memo, $ip| {
     "${memo} ${ip}(ro,insecure,async,no_root_squash)"
   }
-  $clients = "${_rsan_clients} localhost(ro)"
+  $clients = "${_clients} localhost(ro)"
 
   nfs::server::export { $logdir:
     ensure      => $ensure_log,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['networking']['fqdn']}/log",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
-    nfstag      => 'rsan',
+    nfstag      => 'puppet_operations_appliance',
   }
   nfs::server::export { '/opt/puppetlabs/':
     ensure      => $ensure_opt,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['networking']['fqdn']}/opt",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
-    nfstag      => 'rsan',
+    nfstag      => 'puppet_operations_appliance',
   }
   nfs::server::export { '/etc/puppetlabs/':
     ensure      => $ensure_etc,
     clients     => $clients,
     mount       => "/var/pesupport/${facts['networking']['fqdn']}/etc",
     options_nfs => 'tcp,nolock,rsize=32768,wsize=32768,soft,noatime,actimeo=3,retrans=1',
-    nfstag      => 'rsan',
+    nfstag      => 'puppet_operations_appliance',
   }
 
-  ######################2. Operational dashboards configuration  ###############
+  # Install operational dashboards on PE infrastructure nodes
 
   include puppet_operational_dashboards::enterprise_infrastructure
 
-  #####################3. RSAN postgres command access ######################
-  # Determine if node is pe_postgres host and conditionally apply 
-  # Select Access for the RSAN node cert to all PE databases
-  ######################################################################
-
   if $facts['pe_postgresql_info'] != undef and $facts['pe_postgresql_info']['installed_server_version'] != '' {
-    if $rsan_host {
-      $_rsan_host = $rsan_host
+    if $appliance_host {
+      $_appliance_host = $appliance_host
     } else {
     $_query = puppetdb_query('resources[certname] {
         type = "Class" and
-        title = "Rsan::Importer" and             
+        title = "Puppet_operations_appliance::Importer" and             
         nodes {
           deactivated is null and
           expired is null
@@ -115,16 +101,16 @@ class rsan::exporter (
         limit 1
       }')
       unless $_query.empty {
-        $_rsan_host = $_query[0]['certname']
+        $_appliance_host = $_query[0]['certname']
       }
     }
 
-    # If $rsan_host is not defined and the query fails to find a rsan  host, issue a warning.
+    # If $appliance_host is not defined and the query fails to find an appliance host, issue a warning.
 
-    if $_rsan_host == undef {
-      notify { 'You must specify rsan_host (or apply the rsan class to an agent) to enable access.': }
+    if $_appliance_host == undef {
+      notify { 'You must specify appliance_host (or apply the puppet_operations_appliance class to an agent) to enable access.': }
     } else {
-      pe_postgresql::server::role { 'rsan': }
+      pe_postgresql::server::role { 'puppet_operations_appliance': }
 
       if $facts['pe_postgresql_info']['installed_server_version'] {
         $postgres_version = $facts['pe_postgresql_info']['installed_server_version']
@@ -144,14 +130,14 @@ class rsan::exporter (
       }
 
       $dbs.each |$db| {
-        pe_postgresql::server::database_grant { "CONNECT to rsan for ${db}":
+        pe_postgresql::server::database_grant { "CONNECT to puppet_operations_appliance for ${db}":
           privilege => 'CONNECT',
           db        => $db,
-          role      => 'rsan',
-          require   => Pe_postgresql::Server::Role['rsan'],
+          role      => 'puppet_operations_appliance',
+          require   => Pe_postgresql::Server::Role['puppet_operations_appliance'],
         }
 
-        $grant_cmd = "GRANT SELECT ON ALL TABLES IN SCHEMA \"public\" TO rsan"
+        $grant_cmd = "GRANT SELECT ON ALL TABLES IN SCHEMA \"public\" TO puppet_operations_appliance"
         pe_postgresql_psql { "${grant_cmd} on ${db}":
           command    => $grant_cmd,
           db         => $db,
@@ -159,17 +145,17 @@ class rsan::exporter (
           psql_user  => $pg_user,
           psql_group => $pg_group,
           psql_path  => $pg_psql_path,
-          unless     => "SELECT grantee, privilege_type FROM information_schema.role_table_grants WHERE privilege_type = 'SELECT' AND grantee = 'rsan'",
+          unless     => "SELECT grantee, privilege_type FROM information_schema.role_table_grants WHERE privilege_type = 'SELECT' AND grantee = 'puppet_operations_appliance'",
           require    => [
             Class['pe_postgresql::server'],
-            Pe_postgresql::Server::Role['rsan']
+            Pe_postgresql::Server::Role['puppet_operations_appliance']
           ],
         }
 
-        puppet_enterprise::pg::cert_allowlist_entry { "allow-rsan-access for ${db}":
-          user                          => 'rsan',
+        puppet_enterprise::pg::cert_allowlist_entry { "allow-puppet_operations_appliance-access for ${db}":
+          user                          => 'puppet_operations_appliance',
           database                      => $db,
-          allowed_client_certname       => $_rsan_host,
+          allowed_client_certname       => $_appliance_host,
           pg_ident_conf_path            => "/opt/puppetlabs/server/data/postgresql/${postgres_version}/data/pg_ident.conf",
           ip_mask_allow_all_users_ssl   => '0.0.0.0/0',
           ipv6_mask_allow_all_users_ssl => '::/0',

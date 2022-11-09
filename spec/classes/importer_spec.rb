@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'rsan::importer' do
+describe 'puppet_operations_appliance::importer' do
   before :each do
     Puppet::Parser::Functions.newfunction(:puppetdb_query, type: :rvalue, arity: 1) do |_args|
       []

@@ -16,6 +16,6 @@ license = <<-LICENSE
   #####################
 LICENSE
 
-describe 'rsan::license_uuid' do
+describe 'puppet_operations_appliance::license_uuid' do
   it { is_expected.to run.with_params(license).and_return('0000111122223333444455556666777788889999') }
 end
