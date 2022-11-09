@@ -145,7 +145,7 @@ class puppet_operations_appliance::exporter (
           psql_user  => $pg_user,
           psql_group => $pg_group,
           psql_path  => $pg_psql_path,
-          unless     => "SELECT grantee, privilege_type FROM information_schema.role_table_grants WHERE privilege_type = 'SELECT' AND grantee = 'rpuppet_operations_appliance'",
+          unless     => "SELECT grantee, privilege_type FROM information_schema.role_table_grants WHERE privilege_type = 'SELECT' AND grantee = 'puppet_operations_appliance'",
           require    => [
             Class['pe_postgresql::server'],
             Pe_postgresql::Server::Role['puppet_operations_appliance']
