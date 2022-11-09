@@ -4,9 +4,9 @@
   "author": "Martin Ewings",
   "summary": "Configures an operations applicance for monitoring and maintaining a PE installation",
   "license": "Apache-2.0",
-  "source": "https://github.com/puppetlabs/RSAN",
-  "project_page": "https://github.com/puppetlabs/RSAN",
-  "issues_url": "https://github.com/puppetlabs/RSAN/issues",
+  "source": "https://github.com/puppetlabs/puppetlabs-puppet_operations_appliance",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-puppet_operations_appliance",
+  "issues_url": "https://github.com/puppetlabs/puppetlabs-puppet_operations_appliance/issues",
   "dependencies": [
     {
       "name": "puppetlabs/postgresql",
