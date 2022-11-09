@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-puppet_operations_appliance",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "author": "Martin Ewings",
   "summary": "Configures an operations applicance for monitoring and maintaining a PE installation",
   "license": "Apache-2.0",
