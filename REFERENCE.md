@@ -6,17 +6,17 @@
 
 ### Classes
 
-* [`rsan::exporter`](#rsanexporter): Sets up target nodes with nessary services and access for RSAN When Applied to the Infrastruture Agent Node group, Will dynamically configure
-* [`rsan::importer`](#rsanimporter): Class to consume the resources provided by the exporter class. when applied to a node, all tooling agttributed to RSAN will be set up
-* [`rsan::remove_exporter`](#rsanremove_exporter): disables and removes services and components enabled by the exporter class
+* [`puppet_operations_appliance::exporter`](#puppet_operations_applianceexporter): Sets up target nodes with nessary services and access for the puppet_operations_appliance When Applied to the Infrastructure Agent Node group
+* [`puppet_operations_appliance::importer`](#puppet_operations_applianceimporter): Class to consume the resources provided by the exporter class. when applied to a node, all tooling agttributed to puppet_operations_appliance
+* [`puppet_operations_appliance::remove_exporter`](#puppet_operations_applianceremove_exporter): disables and removes services and components enabled by the exporter class
 
 ### Functions
 
-* [`rsan::get_postgres_hosts`](#rsanget_postgres_hosts): Function to provide a list of pe_postgresql hosts to RSAN
-* [`rsan::get_puppet_servers`](#rsanget_puppet_servers): Function to return a list of components running pe_puppetserver to RSAN
-* [`rsan::get_puppetdb_hosts`](#rsanget_puppetdb_hosts)
-* [`rsan::get_rsan_importer_ips`](#rsanget_rsan_importer_ips)
-* [`rsan::license_uuid`](#rsanlicense_uuid): If no $content parameter specified, tries to read the license file from /etc/puppetlabs/license.key
+* [`puppet_operations_appliance::get_importer_ips`](#puppet_operations_applianceget_importer_ips)
+* [`puppet_operations_appliance::get_postgres_hosts`](#puppet_operations_applianceget_postgres_hosts): Function to provide a list of pe_postgresql hosts to the puppet_operations_appliance
+* [`puppet_operations_appliance::get_puppet_servers`](#puppet_operations_applianceget_puppet_servers): Function to return a list of components running pe_puppetserver to puppet_operations_appliance
+* [`puppet_operations_appliance::get_puppetdb_hosts`](#puppet_operations_applianceget_puppetdb_hosts)
+* [`puppet_operations_appliance::license_uuid`](#puppet_operations_appliancelicense_uuid): If no $content parameter specified, tries to read the license file from /etc/puppetlabs/license.key
 
 ### Tasks
 
@@ -24,27 +24,27 @@
 
 ## Classes
 
-### <a name="rsanexporter"></a>`rsan::exporter`
+### <a name="puppet_operations_applianceexporter"></a>`puppet_operations_appliance::exporter`
 
-Sets up target nodes with nessary services and access for RSAN
-When Applied to the Infrastruture Agent Node group,
+Sets up target nodes with nessary services and access for the puppet_operations_appliance
+When Applied to the Infrastructure Agent Node group,
 Will dynamically configure all matching nodes to allow
-access to key elements of Puppet Enterprise to the RSAN node
+access to key elements of Puppet Enterprise to the puppet_operations_appliance
 
 #### Examples
 
 ##### 
 
 ```puppet
-include rsan::exporter
+include puppet_operations_appliance::exporter
 ```
 
 #### Parameters
 
-The following parameters are available in the `rsan::exporter` class:
+The following parameters are available in the `puppet_operations_appliance::exporter` class:
 
-* [`rsan_importer_ips`](#rsan_importer_ips)
-* [`rsan_host`](#rsan_host)
+* [`importer_ips`](#importer_ips)
+* [`appliance_host`](#appliance_host)
 * [`pg_user`](#pg_user)
 * [`pg_group`](#pg_group)
 * [`pg_psql_path`](#pg_psql_path)
@@ -53,26 +53,26 @@ The following parameters are available in the `rsan::exporter` class:
 * [`nfsmount_opt`](#nfsmount_opt)
 * [`logdir`](#logdir)
 
-##### <a name="rsan_importer_ips"></a>`rsan_importer_ips`
+##### <a name="importer_ips"></a>`importer_ips`
 
 Data type: `Array`
 
-An array of rsan ip addresses
+An array of importer node ip addresses
 Defaults to the output of a PuppetDB query
 
-Default value: `rsan::get_rsan_importer_ips()`
+Default value: `puppet_operations_appliance::get_importer_ips()`
 
-##### <a name="rsan_host"></a>`rsan_host`
+##### <a name="appliance_host"></a>`appliance_host`
 
 Data type: `Optional[String]`
 
-The certname of the rsan node
+The certname of the puppet_operations_appliance
 
 Default value: ``undef``
 
 ##### <a name="pg_user"></a>`pg_user`
 
-Data type: `Optional[String]`
+Data type: `String`
 
 The postgres user PE uses
 
@@ -80,7 +80,7 @@ Default value: `'pe-postgres'`
 
 ##### <a name="pg_group"></a>`pg_group`
 
-Data type: `Optional[String]`
+Data type: `String`
 
 The postgres group PE uses the default is pg_user
 
@@ -88,7 +88,7 @@ Default value: `$pg_user`
 
 ##### <a name="pg_psql_path"></a>`pg_psql_path`
 
-Data type: `Optional[String]`
+Data type: `String`
 
 The path to the postgres binary in pe
 
@@ -126,22 +126,22 @@ Allows the scope of logging to be narrowed
 
 Default value: `'/var/log/'`
 
-### <a name="rsanimporter"></a>`rsan::importer`
+### <a name="puppet_operations_applianceimporter"></a>`puppet_operations_appliance::importer`
 
 Class to consume the resources provided by the exporter class.
-when applied to a node, all tooling agttributed to RSAN will be set up
+when applied to a node, all tooling agttributed to puppet_operations_appliance will be set up
 
 #### Examples
 
 ##### 
 
 ```puppet
-include rsan::importer
+include puppet_operations_appliance::importer
 ```
 
-### <a name="rsanremove_exporter"></a>`rsan::remove_exporter`
+### <a name="puppet_operations_applianceremove_exporter"></a>`puppet_operations_appliance::remove_exporter`
 
-In the event RSAN should be uninstalled on all or some of the exporter nodes,
+In the event puppet_operations_appliance should be uninstalled on all or some of the exporter nodes,
 this will stop NFS service, and remove the database components if applied to a postgres node
 
 #### Examples
@@ -149,67 +149,67 @@ this will stop NFS service, and remove the database components if applied to a p
 ##### 
 
 ```puppet
-include rsan::remove_exporter
+include rpuppet_operations_appliance::remove_exporter
 ```
 
 ## Functions
 
-### <a name="rsanget_postgres_hosts"></a>`rsan::get_postgres_hosts`
+### <a name="puppet_operations_applianceget_importer_ips"></a>`puppet_operations_appliance::get_importer_ips`
 
 Type: Puppet Language
 
-Function to provide a list of pe_postgresql hosts to RSAN
+The puppet_operations_appliance::get_importer_ips function.
 
-#### `rsan::get_postgres_hosts()`
+#### `puppet_operations_appliance::get_importer_ips()`
 
-Function to provide a list of pe_postgresql hosts to RSAN
+The puppet_operations_appliance::get_importer_ips function.
+
+Returns: `Array` List of IP addresses of the Puppet_operations_appliance(s) or an empty array
+
+### <a name="puppet_operations_applianceget_postgres_hosts"></a>`puppet_operations_appliance::get_postgres_hosts`
+
+Type: Puppet Language
+
+Function to provide a list of pe_postgresql hosts to the puppet_operations_appliance
+
+#### `puppet_operations_appliance::get_postgres_hosts()`
+
+Function to provide a list of pe_postgresql hosts to the puppet_operations_appliance
 
 Returns: `Array` List of FQDN
 
-### <a name="rsanget_puppet_servers"></a>`rsan::get_puppet_servers`
+### <a name="puppet_operations_applianceget_puppet_servers"></a>`puppet_operations_appliance::get_puppet_servers`
 
 Type: Puppet Language
 
-Function to return a list of components running pe_puppetserver to RSAN
+Function to return a list of components running pe_puppetserver to puppet_operations_appliance
 
-#### `rsan::get_puppet_servers()`
+#### `puppet_operations_appliance::get_puppet_servers()`
 
-Function to return a list of components running pe_puppetserver to RSAN
+Function to return a list of components running pe_puppetserver to puppet_operations_appliance
 
 Returns: `Array` List of Fqdn of nodes with the Master profile
 
-### <a name="rsanget_puppetdb_hosts"></a>`rsan::get_puppetdb_hosts`
+### <a name="puppet_operations_applianceget_puppetdb_hosts"></a>`puppet_operations_appliance::get_puppetdb_hosts`
 
 Type: Puppet Language
 
-The rsan::get_puppetdb_hosts function.
+The puppet_operations_appliance::get_puppetdb_hosts function.
 
-#### `rsan::get_puppetdb_hosts()`
+#### `puppet_operations_appliance::get_puppetdb_hosts()`
 
-The rsan::get_puppetdb_hosts function.
+The puppet_operations_appliance::get_puppetdb_hosts function.
 
 Returns: `Array` List of node running Puppetdb
 
-### <a name="rsanget_rsan_importer_ips"></a>`rsan::get_rsan_importer_ips`
-
-Type: Puppet Language
-
-The rsan::get_rsan_importer_ips function.
-
-#### `rsan::get_rsan_importer_ips()`
-
-The rsan::get_rsan_importer_ips function.
-
-Returns: `Array` List of IP addresses for RSAN nodes or an empty array
-
-### <a name="rsanlicense_uuid"></a>`rsan::license_uuid`
+### <a name="puppet_operations_appliancelicense_uuid"></a>`puppet_operations_appliance::license_uuid`
 
 Type: Puppet Language
 
 If no $content parameter specified, tries to read the license file
 from /etc/puppetlabs/license.key
 
-#### `rsan::license_uuid(Optional[String] $content)`
+#### `puppet_operations_appliance::license_uuid(Optional[String] $content)`
 
 If no $content parameter specified, tries to read the license file
 from /etc/puppetlabs/license.key
@@ -220,7 +220,7 @@ Returns: `String` the uuid from a Puppet license file supplied in $content
 
 Data type: `Optional[String]`
 
-An array of rsan ip addresses
+An array of puppet_operaions appliance ip addresses
 Defaults to the output of a PuppetDB query
 
 ## Tasks
