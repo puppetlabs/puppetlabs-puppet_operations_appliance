@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'rsan::remove_exporter' do
+describe 'puppet_operations_appliance::remove_exporter' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
