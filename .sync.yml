@@ -5,17 +5,11 @@ common:
   delete: true
 appveyor.yml:
   delete: true
-
 Gemfile:
   optional:
     ":development":
     - gem: 'toml-rb'
     - gem: github_changelog_generator
-    - gem: puppet_litmus
-      git: https://github.com/puppetlabs/puppet_litmus
-      ref: main
-      condition: Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.5.0')
-
 spec/default_facts.yml:
   extra_facts:
     pe_server_version: 2019.8.4
@@ -24,9 +18,9 @@ spec/spec_helper.rb:
   mock_with: ":rspec"
   coverage_report: true
 .gitpod.Dockerfile:
-  unmanaged: false
+  delete: true
 .gitpod.yml:
-  unmanaged: false
+  delete: true
 .github/workflows/auto_release.yml:
   unmanaged: true
 .github/workflows/spec.yml:
